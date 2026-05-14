@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -8,25 +7,34 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
-.hdr { background: #1a2e4a; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+
+.hdr { background: #1a2e4a; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .hdr-nome { color: #fff; font-size: 1rem; font-weight: bold; }
-.hdr-crp { display: block; font-size: .6rem; color: #b8922a; text-transform: uppercase; }
+.hdr-crp { display: block; font-size: .58rem; color: #b8922a; text-transform: uppercase; letter-spacing: .06em; }
 .hdr-pill { background: #b8922a; color: #1a2e4a; font-size: .6rem; font-weight: bold; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; white-space: nowrap; }
+
 .prog { background: #fff; padding: 8px 16px; border-bottom: 1px solid #e8e4dc; }
 .prog-top { display: flex; justify-content: space-between; font-size: .65rem; font-weight: bold; color: #9c9488; margin-bottom: 5px; text-transform: uppercase; }
 .prog-trilha { height: 4px; background: #e8e4dc; border-radius: 4px; overflow: hidden; }
 .prog-barra { height: 100%; background: linear-gradient(90deg, #1a2e4a, #b8922a); border-radius: 4px; transition: width .4s; }
+
 .main { padding: 20px 16px 80px; }
 .step { display: none; }
 .step.on { display: block; }
+
+/* Welcome */
 .card { background: #fff; border-radius: 14px; padding: 28px 20px; box-shadow: 0 4px 18px rgba(26,46,74,.09); text-align: center; }
 .logo { display: block; margin: 0 auto 16px; }
 .titulo { font-size: 1.3rem; font-weight: bold; color: #1a2e4a; line-height: 1.3; margin-bottom: 12px; }
-.desc { font-size: .88rem; color: #5a5349; line-height: 1.7; margin-bottom: 20px; }
-.chips { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px; }
+.desc { font-size: .88rem; color: #5a5349; line-height: 1.7; margin-bottom: 16px; }
+.chips { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; margin-bottom: 18px; }
 .chip { background: #f5f3ef; color: #1a2e4a; font-size: .68rem; font-weight: bold; padding: 5px 12px; border-radius: 20px; }
+.conf-box { background: #1a2e4a; border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; font-size: .8rem; color: rgba(255,255,255,.88); line-height: 1.6; text-align: left; }
+.conf-box span { color: #b8922a; font-weight: bold; }
 .btn-iniciar { background: #1a2e4a; color: #fff; border: none; padding: 14px 36px; border-radius: 12px; font-size: .92rem; font-weight: bold; cursor: pointer; }
 .nota { font-size: .74rem; color: #9c9488; margin-top: 12px; }
+
+/* Form */
 .sth { text-align: center; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #e8e4dc; }
 .badge { display: inline-block; background: #b8922a; color: #1a2e4a; font-size: .58rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; margin-bottom: 6px; }
 .sttl { font-size: 1.4rem; font-weight: bold; color: #1a2e4a; margin-bottom: 3px; }
@@ -35,7 +43,13 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 .fl { display: block; font-size: .68rem; font-weight: bold; color: #1a2e4a; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px; }
 .fi { width: 100%; padding: 12px 14px; border: 2px solid #e8e4dc; border-radius: 11px; font-size: 16px; color: #1a2e4a; background: #fff; outline: none; -webkit-appearance: none; }
 .fi:focus { border-color: #b8922a; }
-.instr { background: #1a2e4a; color: #fff; padding: 11px 14px; border-radius: 10px; font-size: .78rem; line-height: 1.6; margin-bottom: 15px; }
+.fl-opt { font-size: .62rem; color: #9c9488; font-weight: normal; margin-left: 4px; }
+
+/* Instruments */
+.instr { background: #1a2e4a; color: #fff; padding: 11px 14px; border-radius: 10px; font-size: .8rem; line-height: 1.65; margin-bottom: 15px; }
+.instr b { color: #b8922a; }
+.instr-ref { font-size: .68rem; opacity: .6; margin-top: 5px; display: block; }
+
 .qcard { background: #fff; border-radius: 11px; padding: 14px; margin-bottom: 9px; box-shadow: 0 2px 8px rgba(26,46,74,.07); border-left: 4px solid #e8e4dc; }
 .qcard.ok { border-left-color: #b8922a; }
 .qnum { font-size: .58rem; font-weight: bold; color: #b8922a; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
@@ -45,27 +59,40 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 .opt.sel { border-color: #b8922a; background: #fff3d6; color: #1a2e4a; font-weight: bold; }
 .onum { width: 22px; height: 22px; min-width: 22px; border-radius: 50%; background: #e8e4dc; display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: bold; flex-shrink: 0; }
 .opt.sel .onum { background: #b8922a; color: #fff; }
-.erq-linha { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-top: 4px; }
+
+/* ERQ 7-point */
+.erq-linha { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; margin-top: 4px; }
 .eb { padding: 8px 2px; border: 2px solid #e8e4dc; border-radius: 7px; cursor: pointer; background: #faf8f4; text-align: center; }
 .eb.sel { border-color: #b8922a; background: #fff3d6; font-weight: bold; }
 .enum { font-size: .9rem; font-weight: bold; color: #1a2e4a; line-height: 1; }
 .elbl { font-size: .46rem; color: #9c9488; line-height: 1.3; margin-top: 1px; }
+
+/* Nav */
 .nav { display: flex; gap: 8px; margin-top: 18px; justify-content: flex-end; }
 .btn { padding: 12px 22px; border-radius: 11px; border: none; cursor: pointer; font-size: .85rem; font-weight: bold; }
 .btn-p { background: #1a2e4a; color: #fff; }
 .btn-s { background: transparent; color: #1a2e4a; border: 2px solid #e8e4dc; }
 .btn-g { background: #b8922a; color: #1a2e4a; }
 .erro { background: #fef2f2; border: 1px solid #fecaca; color: #b33a3a; padding: 9px 12px; border-radius: 8px; font-size: .77rem; margin-top: 7px; display: none; }
+
+/* Results */
 .rhero { background: linear-gradient(135deg, #1a2e4a, #2a4a6b); color: #fff; padding: 22px 18px; border-radius: 14px; text-align: center; margin-bottom: 16px; }
-.rname { font-size: 1.6rem; font-weight: bold; line-height: 1.1; margin-bottom: 3px; }
+.rname { font-size: 1.6rem; font-weight: bold; line-height: 1.1; margin-bottom: 4px; }
 .rmeta { color: #b8922a; font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; }
-.rsec { margin-bottom: 20px; }
+.rdest { background: rgba(184,146,42,.2); color: #b8922a; font-size: .75rem; font-weight: bold; padding: 3px 10px; border-radius: 12px; display: inline-block; margin-top: 6px; }
+
+.aviso { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 11px; padding: 12px 16px; margin-bottom: 18px; font-size: .8rem; color: #7c2d12; line-height: 1.6; }
+.aviso strong { color: #c17b2a; }
+
+.rsec { margin-bottom: 22px; }
 .rstl { font-size: 1.1rem; font-weight: bold; color: #1a2e4a; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 2px solid #b8922a; }
+
 .cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .sc { background: #fff; border-radius: 11px; padding: 13px; box-shadow: 0 2px 8px rgba(26,46,74,.07); text-align: center; border-top: 4px solid transparent; }
 .sc.lo { border-top-color: #2e7d5b; }
 .sc.mo { border-top-color: #c17b2a; }
 .sc.hi { border-top-color: #b33a3a; }
+.sc.neu { border-top-color: #1a2e4a; }
 .slbl { font-size: .58rem; font-weight: bold; text-transform: uppercase; letter-spacing: .09em; color: #9c9488; margin-bottom: 5px; }
 .sval { font-size: 1.9rem; font-weight: bold; color: #1a2e4a; line-height: 1; margin-bottom: 4px; }
 .sval span { font-size: .78rem; opacity: .4; }
@@ -73,26 +100,35 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 .lo .stag { background: #d1fae5; color: #2e7d5b; }
 .mo .stag { background: #fef3c7; color: #c17b2a; }
 .hi .stag { background: #fee2e2; color: #b33a3a; }
-.interp { background: #1a2e4a; color: #fff; border-radius: 11px; padding: 16px; margin-bottom: 10px; }
-.interp h4 { font-size: .95rem; color: #b8922a; margin-bottom: 6px; }
-.interp p { font-size: .8rem; line-height: 1.75; opacity: .92; }
+.neu .stag { background: #e8e4dc; color: #1a2e4a; }
+
 .fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-.fc { border-radius: 11px; padding: 12px; font-size: .78rem; line-height: 1.6; }
+.fc { border-radius: 11px; padding: 12px; font-size: .78rem; line-height: 1.7; }
 .fc.str { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
 .fc.alt { background: #fff7ed; border: 1px solid #fed7aa; color: #7c2d12; }
-.fc strong { display: block; font-size: .62rem; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; opacity: .7; }
+.fc strong { display: block; font-size: .62rem; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px; opacity: .7; }
+
+.exp-box { background: #f5f3ef; border-left: 4px solid #b8922a; border-radius: 0 11px 11px 0; padding: 13px 15px; margin: 10px 0 12px; }
+.exp-icon { font-size: .63rem; font-weight: bold; text-transform: uppercase; letter-spacing: .09em; color: #b8922a; margin-bottom: 5px; }
+.exp-txt { font-size: .85rem; color: #1a2e4a; line-height: 1.75; }
+
 .cbox { background: #fff; border-radius: 11px; padding: 16px; box-shadow: 0 2px 8px rgba(26,46,74,.07); margin-bottom: 9px; }
 .cttl { font-size: .65rem; font-weight: bold; text-transform: uppercase; letter-spacing: .07em; color: #5a5349; text-align: center; margin-bottom: 12px; }
+
 .barra-chart { display: flex; flex-direction: column; gap: 9px; }
 .bc { display: flex; align-items: center; gap: 7px; }
-.bc-lbl { font-size: .7rem; font-weight: bold; color: #5a5349; width: 130px; min-width: 130px; text-align: right; }
+.bc-lbl { font-size: .7rem; font-weight: bold; color: #5a5349; width: 148px; min-width: 148px; text-align: right; }
+.bc-lbl-sm { font-size: .65rem; font-weight: bold; color: #5a5349; width: 148px; min-width: 148px; text-align: right; }
 .bc-trilha { flex: 1; height: 8px; background: #e8e4dc; border-radius: 8px; overflow: hidden; }
-.bc-fill { height: 100%; border-radius: 8px; }
+.bc-fill { height: 100%; border-radius: 8px; transition: width .8s ease; }
 .bc-pct { font-size: .68rem; font-weight: bold; color: #1a2e4a; width: 34px; min-width: 34px; }
+
 .sbox { background: #fff; border-radius: 14px; padding: 18px; box-shadow: 0 4px 18px rgba(26,46,74,.09); text-align: center; margin-top: 18px; }
 .sbox-t { font-size: 1.05rem; font-weight: bold; color: #1a2e4a; margin-bottom: 3px; }
 .sbox-s { font-size: .76rem; color: #9c9488; margin-bottom: 13px; }
 .sbtns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+/* Modal */
 .mov { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.65); z-index: 500; display: none; justify-content: center; align-items: center; padding: 14px; }
 .mov.on { display: flex; }
 .modal { background: #fff; border-radius: 16px; width: 100%; max-width: 480px; max-height: 88vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -120,146 +156,280 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
     </svg>
     <div>
       <span class="hdr-nome">Livia Melo</span>
-      <span class="hdr-crp">Psicologa CRP 11-04802</span>
+      <span class="hdr-crp">Psicóloga · CRP 11-04802</span>
     </div>
   </div>
   <span class="hdr-pill">Check-In Emocional</span>
 </header>
 
 <div class="prog">
-  <div class="prog-top"><span id="pLbl">Inicio</span><span id="pPct">0%</span></div>
+  <div class="prog-top"><span id="pLbl">Início</span><span id="pPct">0%</span></div>
   <div class="prog-trilha"><div class="prog-barra" id="pBar" style="width:0%"></div></div>
 </div>
 
 <div class="main">
 
-  <div class="step on" id="s0">
-    <div class="card">
-      <svg class="logo" width="60" height="60" viewBox="0 0 60 60">
-        <circle cx="30" cy="30" r="30" fill="#1a2e4a"/>
-        <ellipse cx="30" cy="30" rx="8" ry="16" fill="#b8922a" opacity=".9"/>
-        <ellipse cx="30" cy="30" rx="8" ry="16" fill="#b8922a" opacity=".7" transform="rotate(60 30 30)"/>
-        <ellipse cx="30" cy="30" rx="8" ry="16" fill="#b8922a" opacity=".5" transform="rotate(120 30 30)"/>
-      </svg>
-      <div class="titulo">Check-In Emocional para o Intercambio</div>
-      <p class="desc">Antes de embarcar na sua maior aventura, vamos olhar para dentro. Esta avaliacao mapeia seus recursos emocionais.</p>
-      <div class="chips">
-        <span class="chip">Estresse</span>
-        <span class="chip">Ansiedade</span>
-        <span class="chip">Enfrentamento</span>
-        <span class="chip">Resiliencia</span>
-        <span class="chip">Regulacao</span>
-      </div>
-      <button class="btn-iniciar" onclick="ir(1)">Iniciar Avaliacao</button>
-      <p class="nota">Tempo estimado: 25 a 35 minutos</p>
+<!-- STEP 0: BOAS-VINDAS -->
+<div class="step on" id="s0">
+  <div class="card">
+    <svg class="logo" width="60" height="60" viewBox="0 0 60 60">
+      <circle cx="30" cy="30" r="30" fill="#1a2e4a"/>
+      <ellipse cx="30" cy="30" rx="8" ry="16" fill="#b8922a" opacity=".9"/>
+      <ellipse cx="30" cy="30" rx="8" ry="16" fill="#b8922a" opacity=".7" transform="rotate(60 30 30)"/>
+      <ellipse cx="30" cy="30" rx="8" ry="16" fill="#b8922a" opacity=".5" transform="rotate(120 30 30)"/>
+    </svg>
+    <div class="titulo">Check-In Emocional<br>para o Intercâmbio</div>
+    <p class="desc">Antes de embarcar na sua maior aventura, vamos olhar para dentro. Esta avaliação mapeia seus recursos emocionais para que você viaje mais preparado(a).</p>
+    <div class="chips">
+      <span class="chip">Estresse</span>
+      <span class="chip">Ansiedade</span>
+      <span class="chip">Enfrentamento</span>
+      <span class="chip">Resiliência</span>
+      <span class="chip">Regulação Emocional</span>
     </div>
+    <div class="conf-box">
+      <span>Importante:</span> Este é um mapeamento preventivo, não um diagnóstico. Suas respostas são confidenciais e serão utilizadas exclusivamente pela Dra. Lívia Melo para a sua devolutiva individual.
+    </div>
+    <button class="btn-iniciar" onclick="ir(1)">Iniciar Avaliação</button>
+    <p class="nota">⏱ Tempo estimado: 20 a 30 minutos · 5 instrumentos validados</p>
   </div>
-
-  <div class="step" id="s1">
-    <div class="sth"><span class="badge">Etapa 1 de 6</span><div class="sttl">Identificacao</div><p class="ssub">Preencha seus dados.</p></div>
-    <div class="fg"><label class="fl">Nome completo</label><input class="fi" type="text" id="fN" placeholder="Seu nome completo"></div>
-    <div class="fg"><label class="fl">Data de nascimento</label><input class="fi" type="date" id="fB"></div>
-    <div class="fg"><label class="fl">Data da avaliacao</label><input class="fi" type="date" id="fD"></div>
-    <div class="erro" id="e1">Preencha todos os campos.</div>
-    <div class="nav"><button class="btn btn-p" onclick="s1()">Proximo</button></div>
-  </div>
-
-  <div class="step" id="s2">
-    <div class="sth"><span class="badge">Instrumento 1</span><div class="sttl">Escala de Estresse Percebido</div><p class="ssub">PSS-10</p></div>
-    <div class="instr">Indique com que frequencia voce sentiu ou pensou de determinada maneira no <b>ultimo mes</b>.</div>
-    <div id="wP"></div>
-    <div class="erro" id="e2">Responda todas as questoes.</div>
-    <div class="nav"><button class="btn btn-s" onclick="ir(1)">Voltar</button><button class="btn btn-p" onclick="prox(2,'p',10,3)">Proximo</button></div>
-  </div>
-
-  <div class="step" id="s3">
-    <div class="sth"><span class="badge">Instrumento 2</span><div class="sttl">Escala de Ansiedade</div><p class="ssub">GAD-7</p></div>
-    <div class="instr">Nas <b>ultimas 2 semanas</b>, com que frequencia voce foi incomodado(a) pelos problemas abaixo?</div>
-    <div id="wG"></div>
-    <div class="erro" id="e3">Responda todas as questoes.</div>
-    <div class="nav"><button class="btn btn-s" onclick="ir(2)">Voltar</button><button class="btn btn-p" onclick="prox(3,'g',7,4)">Proximo</button></div>
-  </div>
-
-  <div class="step" id="s4">
-    <div class="sth"><span class="badge">Instrumento 3</span><div class="sttl">Estilos de Enfrentamento</div><p class="ssub">Brief COPE</p></div>
-    <div class="instr">Indique com que frequencia voce age assim ao enfrentar situacoes dificeis.</div>
-    <div id="wC"></div>
-    <div class="erro" id="e4">Responda todas as questoes.</div>
-    <div class="nav"><button class="btn btn-s" onclick="ir(3)">Voltar</button><button class="btn btn-p" onclick="prox(4,'c',28,5)">Proximo</button></div>
-  </div>
-
-  <div class="step" id="s5">
-    <div class="sth"><span class="badge">Instrumento 4</span><div class="sttl">Escala de Resiliencia</div><p class="ssub">CD-RISC-10</p></div>
-    <div class="instr">Avalie o quanto cada afirmacao e verdadeira para voce.</div>
-    <div id="wD"></div>
-    <div class="erro" id="e5">Responda todas as questoes.</div>
-    <div class="nav"><button class="btn btn-s" onclick="ir(4)">Voltar</button><button class="btn btn-p" onclick="prox(5,'d',10,6)">Proximo</button></div>
-  </div>
-
-  <div class="step" id="s6">
-    <div class="sth"><span class="badge">Instrumento 5</span><div class="sttl">Regulacao Emocional</div><p class="ssub">ERQ</p></div>
-    <div class="instr">Indique o quanto voce concorda: <b>1 = Discordo totalmente</b> ate <b>7 = Concordo totalmente</b>.</div>
-    <div id="wE"></div>
-    <div class="erro" id="e6">Responda todas as questoes.</div>
-    <div class="nav"><button class="btn btn-s" onclick="ir(5)">Voltar</button><button class="btn btn-g" onclick="finalizar()">Ver meu perfil</button></div>
-  </div>
-
-  <div class="step" id="sR"></div>
-
 </div>
 
+<!-- STEP 1: IDENTIFICAÇÃO -->
+<div class="step" id="s1">
+  <div class="sth"><span class="badge">Etapa 1 de 6</span><div class="sttl">Identificação</div><p class="ssub">Preencha seus dados antes de iniciar.</p></div>
+  <div class="fg"><label class="fl">Nome completo</label><input class="fi" type="text" id="fN" placeholder="Seu nome completo" autocomplete="name"></div>
+  <div class="fg"><label class="fl">Data de nascimento</label><input class="fi" type="date" id="fB"></div>
+  <div class="fg"><label class="fl">Data da avaliação</label><input class="fi" type="date" id="fD"></div>
+  <div class="fg"><label class="fl">Destino do intercâmbio <span class="fl-opt">(opcional)</span></label><input class="fi" type="text" id="fDest" placeholder="Ex: Estados Unidos, Canadá, Irlanda..."></div>
+  <div class="erro" id="e1">Preencha nome, data de nascimento e data da avaliação.</div>
+  <div class="nav"><button class="btn btn-p" onclick="s1()">Próximo →</button></div>
+</div>
+
+<!-- STEP 2: PSS-10 -->
+<div class="step" id="s2">
+  <div class="sth"><span class="badge">Instrumento 1 · Estresse</span><div class="sttl">Escala de Estresse Percebido</div><p class="ssub">PSS-10 · Luft et al., 2007</p></div>
+  <div class="instr">
+    <b>Instruções:</b> As perguntas a seguir são sobre seus sentimentos e pensamentos durante o <b>último mês</b>. Em cada caso, indique com que frequência você se sentiu ou pensou de determinada maneira.
+    <span class="instr-ref">Escala: 0 = Nunca · 4 = Sempre</span>
+  </div>
+  <div id="wP"></div>
+  <div class="erro" id="e2">Responda todas as questões para continuar.</div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(1)">← Voltar</button><button class="btn btn-p" onclick="prox(2,'p',10,3)">Próximo →</button></div>
+</div>
+
+<!-- STEP 3: GAD-7 -->
+<div class="step" id="s3">
+  <div class="sth"><span class="badge">Instrumento 2 · Ansiedade</span><div class="sttl">Escala de Ansiedade Generalizada</div><p class="ssub">GAD-7 · Spitzer et al., 2006</p></div>
+  <div class="instr">
+    <b>Instruções:</b> Nas <b>últimas 2 semanas</b>, com que frequência você foi incomodado(a) pelos problemas abaixo?
+    <span class="instr-ref">0 = Nenhuma vez · 3 = Quase todos os dias</span>
+  </div>
+  <div id="wG"></div>
+  <div class="erro" id="e3">Responda todas as questões para continuar.</div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(2)">← Voltar</button><button class="btn btn-p" onclick="prox(3,'g',7,4)">Próximo →</button></div>
+</div>
+
+<!-- STEP 4: BRIEF COPE -->
+<div class="step" id="s4">
+  <div class="sth"><span class="badge">Instrumento 3 · Enfrentamento</span><div class="sttl">Estilos de Enfrentamento</div><p class="ssub">Brief COPE · Carver (1997) · Carvalho et al., 2016</p></div>
+  <div class="instr">
+    <b>Instruções:</b> As frases abaixo descrevem formas de lidar com situações difíceis ou estressantes. Indique com que frequência você age assim quando algo difícil acontece na sua vida.
+    <span class="instr-ref">1 = Não tenho feito isso · 4 = Tenho feito isso bastante</span>
+  </div>
+  <div id="wC"></div>
+  <div class="erro" id="e4">Responda todas as questões para continuar.</div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(3)">← Voltar</button><button class="btn btn-p" onclick="prox(4,'c',28,5)">Próximo →</button></div>
+</div>
+
+<!-- STEP 5: CD-RISC -->
+<div class="step" id="s5">
+  <div class="sth"><span class="badge">Instrumento 4 · Resiliência</span><div class="sttl">Escala de Resiliência</div><p class="ssub">CD-RISC-10 · Connor & Davidson · Lopes & Martins, 2011</p></div>
+  <div class="instr">
+    <b>Instruções:</b> Leia cada afirmação abaixo e indique o quanto ela é verdadeira para você, de forma geral.
+    <span class="instr-ref">0 = Nada verdadeiro · 4 = Quase sempre verdadeiro</span>
+  </div>
+  <div id="wD"></div>
+  <div class="erro" id="e5">Responda todas as questões para continuar.</div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(4)">← Voltar</button><button class="btn btn-p" onclick="prox(5,'d',10,6)">Próximo →</button></div>
+</div>
+
+<!-- STEP 6: ERQ -->
+<div class="step" id="s6">
+  <div class="sth"><span class="badge">Instrumento 5 · Regulação Emocional</span><div class="sttl">Questionário de Regulação Emocional</div><p class="ssub">ERQ · Gross & John, 2003 · Adaptação brasileira</p></div>
+  <div class="instr">
+    <b>Instruções:</b> Gostaríamos de saber como você lida habitualmente com as suas emoções. Leia cada afirmação e indique o quanto você concorda com ela.
+    <span class="instr-ref">1 = Discordo totalmente · 7 = Concordo totalmente</span>
+  </div>
+  <div id="wE"></div>
+  <div class="erro" id="e6">Responda todas as questões para continuar.</div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(5)">← Voltar</button><button class="btn btn-g" onclick="finalizar()">Ver meu perfil →</button></div>
+</div>
+
+<!-- RESULTS -->
+<div class="step" id="sR"></div>
+
+</div><!-- .main -->
+
+<!-- MODAL ENVIO -->
 <div class="mov" id="modal">
   <div class="modal">
-    <div class="mhdr">
-      <span class="mhdr-t">Enviar para Dra. Livia Melo</span>
-      <button class="mfechar" onclick="document.getElementById('modal').className='mov'">x</button>
-    </div>
+    <div class="mhdr"><span class="mhdr-t">Enviar para Dra. Lívia Melo</span><button class="mfechar" onclick="document.getElementById('modal').className='mov'">✕</button></div>
     <div class="mbody">
-      <div class="mnota">Toque em <b>Enviar pelo WhatsApp</b> ou <b>Copiar</b> para colar no e-mail.</div>
+      <div class="mnota">Toque em <b>Enviar pelo WhatsApp</b> para enviar direto, ou <b>Copiar Texto</b> para colar no e-mail.</div>
       <textarea class="mta" id="mTxt" readonly></textarea>
       <div class="macts">
-        <button class="btn-wpp" onclick="envWpp()">
+        <button class="btn-wpp" onclick="envW()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Enviar pelo WhatsApp
         </button>
-        <button class="btn-cp" onclick="copiar()">Copiar Texto</button>
-        <div class="cpok" id="cpOk">Copiado! Cole no e-mail para a Dra. Livia.</div>
+        <button class="btn-cp" onclick="cpTxt()">Copiar Texto</button>
+        <div class="cpok" id="cpOk">✓ Copiado! Cole no e-mail para a Dra. Lívia.</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
+// ── STATE ──────────────────────────────────────────────────────
 var U = {};
 var R = { p:{}, g:{}, c:{}, d:{}, e:{} };
-var LBLS = ['Inicio','Identificacao','Estresse','Ansiedade','Enfrentamento','Resiliencia','Regulacao','Resultados'];
+var LBLS = ['Início','Identificação','Estresse (PSS-10)','Ansiedade (GAD-7)','Enfrentamento (COPE)','Resiliência (CD-RISC)','Regulação (ERQ)','Resultados'];
 
-var PI = ['No ultimo mes, ficou transtornado(a) porque algo aconteceu inesperadamente?','No ultimo mes, se sentiu incapaz de controlar coisas importantes em sua vida?','No ultimo mes, se sentiu nervoso(a) e estressado(a)?','No ultimo mes, se sentiu confiante na capacidade de lidar com problemas?','No ultimo mes, sentiu que as coisas caminhavam do jeito que queria?','No ultimo mes, achou que nao conseguiria dar conta de tudo?','No ultimo mes, conseguiu controlar suas irritacoes?','No ultimo mes, sentiu que estava no controle das situacoes?','No ultimo mes, ficou com raiva de coisas fora do seu controle?','No ultimo mes, sentiu que as dificuldades se acumulavam demais?'];
-var PS = ['0 - Nunca','1 - Quase nunca','2 - As vezes','3 - Quase sempre','4 - Sempre'];
-var PR = [3,4,6,7];
+// ── PSS-10 ─────────────────────────────────────────────────────
+// Versão validada: Luft et al. (2007), Rev. Saúde Pública
+var PI = [
+  'No último mês, com que frequência você ficou transtornado(a) porque algo aconteceu de forma inesperada?',
+  'No último mês, com que frequência você se sentiu incapaz de controlar as coisas importantes em sua vida?',
+  'No último mês, com que frequência você se sentiu nervoso(a) e estressado(a)?',
+  'No último mês, com que frequência você se sentiu confiante na sua capacidade de lidar com seus problemas pessoais?',
+  'No último mês, com que frequência você sentiu que as coisas estavam caminhando do jeito que você queria?',
+  'No último mês, com que frequência você achou que não conseguiria dar conta de todas as coisas que tinha para fazer?',
+  'No último mês, com que frequência você conseguiu controlar as irritações na sua vida?',
+  'No último mês, com que frequência você sentiu que estava no controle das situações?',
+  'No último mês, com que frequência você ficou com raiva porque as coisas que aconteceram estavam fora do seu controle?',
+  'No último mês, com que frequência você sentiu que as dificuldades se acumulavam tanto que você não conseguia superá-las?'
+];
+var PS = ['0 · Nunca','1 · Quase nunca','2 · Às vezes','3 · Quase sempre','4 · Sempre'];
+var PR = [3,4,6,7]; // itens reversos (índice 0)
 
-var GI = ['Sentir-se nervoso(a), ansioso(a) ou muito tenso(a)','Nao ser capaz de parar ou controlar as preocupacoes','Preocupar-se muito com diversas coisas','Ter dificuldade para relaxar','Ficar tao agitado(a) que fica dificil ficar quieto(a)','Ficar facilmente irritado(a) ou aborrecido(a)','Sentir medo, como se algo terrivel fosse acontecer'];
-var GS = ['0 - Nenhuma vez','1 - Varios dias','2 - Mais da metade dos dias','3 - Quase todos os dias'];
+// ── GAD-7 ──────────────────────────────────────────────────────
+var GI = [
+  'Sentir-se nervoso(a), ansioso(a) ou muito tenso(a)',
+  'Não ser capaz de parar ou controlar as preocupações',
+  'Preocupar-se muito com diversas coisas',
+  'Ter dificuldade para relaxar',
+  'Ficar tão agitado(a) que fica difícil ficar quieto(a)',
+  'Ficar facilmente irritado(a) ou aborrecido(a)',
+  'Sentir medo, como se algo terrível fosse acontecer'
+];
+var GS = ['0 · Nenhuma vez','1 · Vários dias','2 · Mais da metade dos dias','3 · Quase todos os dias'];
 
-var CI = ['Tenho me dedicado ao trabalho para tirar o problema da cabeca.','Tenho concentrado esforcos para fazer algo sobre a situacao.','Tenho dito a mim mesmo que isso nao esta acontecendo de verdade.','Tenho consumido alcool ou substancias para me sentir melhor.','Tenho buscado apoio emocional em outras pessoas.','Tenho desistido de tentar enfrentar o problema.','Tenho agido para tentar melhorar a situacao.','Tenho me recusado a acreditar que isso ocorreu.','Tenho expressado meus sentimentos, desabafando.','Tenho pedido ajuda a quem ja passou pelo mesmo problema.','Tenho consumido substancias para me ajudar a enfrentar.','Tenho tentado ver as coisas de perspectiva mais positiva.','Tenho me criticado pelo que esta acontecendo.','Tenho tentado elaborar uma estrategia sobre o que fazer.','Tenho buscado conforto e compreensao em outras pessoas.','Tenho desistido de lidar com o problema.','Tenho tentado encontrar algo de bom no que aconteceu.','Tenho brincado com a situacao para lidar melhor.','Tenho feito outras coisas para pensar menos.','Tenho aceitado a realidade do que aconteceu.','Tenho expressado meus sentimentos negativos.','Tenho buscado conforto na religiao ou espiritualidade.','Tenho pedido ajuda a pessoas que entendem mais.','Tenho aprendido a conviver com a situacao.','Tenho pensado muito sobre os passos a seguir.','Tenho me culpado pelo que aconteceu.','Tenho rezado ou meditado.','Tenho me divertido para lidar melhor com o problema.'];
-var CS = ['0 - Nao tenho feito','1 - Feito um pouco','2 - Moderadamente','3 - Bastante'];
+// ── BRIEF COPE ─────────────────────────────────────────────────
+// Escala 1–4 conforme versão original (Carver, 1997)
+// Itens 4 e 11 (índice 3 e 10) adaptados para adolescentes:
+// substituída subescala "Uso de substâncias" por "Evasão comportamental"
+// com base em literatura de coping em adolescentes (Compas et al., 2017)
+var CI = [
+  'Tenho me dedicado ao trabalho ou a outras atividades para tirar o problema da cabeça.',       // 0 Auto-distração
+  'Tenho concentrado meus esforços para fazer algo sobre a situação.',                             // 1 Enf. ativo
+  'Tenho dito a mim mesmo(a) que isso não está acontecendo de verdade.',                          // 2 Negação
+  'Tenho passado mais tempo em redes sociais, jogos ou séries para não pensar no problema.',      // 3 Evasão comportamental (adapt.)
+  'Tenho buscado apoio emocional em outras pessoas.',                                              // 4 Sup. emocional
+  'Tenho desistido de tentar enfrentar o problema.',                                               // 5 Desinvestimento
+  'Tenho agido para tentar melhorar a situação.',                                                  // 6 Enf. ativo
+  'Tenho me recusado a acreditar que isso ocorreu.',                                               // 7 Negação
+  'Tenho expressado meus sentimentos difíceis, desabafando.',                                      // 8 Desabafo
+  'Tenho pedido ajuda e conselho a quem já passou pelo mesmo problema.',                           // 9 Sup. instrumental
+  'Tenho ficado no celular ou em entretenimento para fugir dos pensamentos sobre o problema.',     // 10 Evasão comportamental (adapt.)
+  'Tenho tentado ver as coisas de outra perspectiva, de forma mais positiva.',                    // 11 Reinterpretação
+  'Tenho me criticado ou culpado pelo que está acontecendo.',                                      // 12 Autocrítica
+  'Tenho tentado elaborar uma estratégia sobre o que fazer.',                                      // 13 Planejamento
+  'Tenho buscado conforto e compreensão em outras pessoas.',                                       // 14 Sup. emocional
+  'Tenho desistido de lidar com o problema.',                                                      // 15 Desinvestimento
+  'Tenho tentado encontrar algo de bom no que está acontecendo.',                                  // 16 Reinterpretação
+  'Tenho brincado com a situação e usado o humor para lidar melhor.',                             // 17 Humor
+  'Tenho feito outras coisas para pensar menos (saídas, leituras, atividade física).',            // 18 Auto-distração
+  'Tenho aceitado a realidade do que aconteceu.',                                                  // 19 Aceitação
+  'Tenho expressado meus sentimentos negativos de alguma forma.',                                  // 20 Desabafo
+  'Tenho buscado conforto na religião ou em crenças espirituais.',                                // 21 Religiosidade
+  'Tenho pedido ajuda a pessoas que entendem mais do que eu sobre isso.',                         // 22 Sup. instrumental
+  'Tenho aprendido a conviver com a situação.',                                                    // 23 Aceitação
+  'Tenho pensado muito sobre os passos a seguir.',                                                 // 24 Planejamento
+  'Tenho me culpado pelo que aconteceu.',                                                          // 25 Autocrítica
+  'Tenho rezado ou meditado.',                                                                     // 26 Religiosidade
+  'Tenho me divertido e feito coisas prazerosas para lidar melhor com o problema.'                // 27 Humor
+];
+var CS = ['1 · Não tenho feito isso','2 · Feito um pouco','3 · Moderadamente','4 · Bastante'];
 
-var CSUB = {'Auto-distracao':[0,18],'Enf. ativo':[1,6],'Negacao':[2,7],'Substancias':[3,10],'Sup. emocional':[4,14],'Desinvestimento':[5,15],'Desabafo':[8,20],'Sup. instrumental':[9,22],'Reinterpretacao':[11,16],'Autocritica':[12,25],'Planejamento':[13,24],'Humor':[17,27],'Aceitacao':[19,23],'Religiosidade':[21,26]};
-var CSTY = {'Problema':['Enf. ativo','Planejamento','Sup. instrumental','Reinterpretacao','Aceitacao'],'Emocao':['Sup. emocional','Desabafo','Humor','Religiosidade'],'Disfuncional':['Negacao','Auto-distracao','Desinvestimento','Autocritica','Substancias']};
+// Subescalas (índices 0-based)
+var CSUB = {
+  'Auto-distração':            [0,18],
+  'Enfrentamento ativo':       [1,6],
+  'Negação':                   [2,7],
+  'Evasão comportamental':     [3,10],  // adaptado para adolescentes
+  'Suporte emocional':         [4,14],
+  'Desinvestimento':           [5,15],
+  'Desabafo':                  [8,20],
+  'Suporte instrumental':      [9,22],
+  'Reinterpretação positiva':  [11,16],
+  'Autocrítica':               [12,25],
+  'Planejamento':              [13,24],
+  'Humor':                     [17,27],
+  'Aceitação':                 [19,23],
+  'Religiosidade':             [21,26]
+};
 
-var DI = ['Sou capaz de me adaptar quando ocorrem mudancas.','Posso lidar com tudo o que vier.','Vejo o lado positivo mesmo nas situacoes dificeis.','Enfrentar o estresse pode me fortalecer.','Tendo a me recuperar rapidamente apos momentos dificeis.','Sinto que consigo atingir meus objetivos mesmo diante de obstaculos.','Em situacoes de pressao, consigo manter o foco e pensar com clareza.','Nao me deixo desanimar facilmente por fracassos.','Me considero uma pessoa resiliente.','Consigo lidar com sentimentos dificeis.'];
-var DS = ['0 - Nada verdadeiro','1 - Raramente','2 - As vezes','3 - Frequentemente','4 - Quase sempre'];
+// Estilos
+var CSTY = {
+  'Problema': ['Enfrentamento ativo','Planejamento','Suporte instrumental','Reinterpretação positiva','Aceitação'],
+  'Emocao':   ['Suporte emocional','Desabafo','Humor','Religiosidade'],
+  'Disfuncional': ['Negação','Auto-distração','Desinvestimento','Autocrítica','Evasão comportamental']
+};
 
-var EI = ['Quando quero sentir mais emocoes positivas, mudo o que estou pensando.','Mantenho minhas emocoes guardadas para mim mesmo(a).','Quando quero sentir menos emocoes negativas, mudo o que estou pensando.','Quando estou sentindo emocoes positivas, tenho cuidado para nao expressa-las.','Quando me deparo com situacoes estressantes, penso de forma diferente para me sentir melhor.','Controlo minhas emocoes nao as expressando.','Quando quero sentir mais emocoes positivas, mudo minha forma de pensar.','Controlo minhas emocoes mudando minha forma de pensar.','Quando estou sentindo emocoes negativas, tenho cuidado para nao expressa-las.','Quando quero sentir menos emocoes negativas, mudo minha forma de pensar.'];
-var ER = [0,2,4,6,7,9];
-var ES = [1,3,5,8];
+// ── CD-RISC-10 ─────────────────────────────────────────────────
+var DI = [
+  'Sou capaz de me adaptar quando ocorrem mudanças.',
+  'Posso lidar com tudo o que vier.',
+  'Vejo o lado positivo mesmo nas situações difíceis.',
+  'Enfrentar o estresse pode me fortalecer.',
+  'Tendo a me recuperar rapidamente após momentos difíceis.',
+  'Sinto que consigo atingir meus objetivos mesmo diante de obstáculos.',
+  'Em situações de pressão, consigo manter o foco e pensar com clareza.',
+  'Não me deixo desanimar facilmente por fracassos.',
+  'Me considero uma pessoa resiliente.',
+  'Consigo lidar com sentimentos difíceis e desagradáveis.'
+];
+// Rótulos resumidos para o gráfico de resultado
+var DI_CURTO = [
+  'Adaptação a mudanças','Lidar com desafios','Ver lado positivo',
+  'Estresse me fortalece','Recuperação rápida','Atingir objetivos',
+  'Foco sob pressão','Resiste a fracassos','Sou resiliente','Lida com emoções difíceis'
+];
+var DS = ['0 · Nada verdadeiro','1 · Raramente','2 · Às vezes','3 · Frequentemente','4 · Quase sempre'];
 
+// ── ERQ ────────────────────────────────────────────────────────
+var EI = [
+  'Quando quero sentir mais emoções positivas, mudo o que estou pensando.',
+  'Mantenho minhas emoções guardadas para mim mesmo(a).',
+  'Quando quero sentir menos emoções negativas, mudo o que estou pensando.',
+  'Quando estou sentindo emoções positivas, tenho cuidado para não expressá-las.',
+  'Quando me deparo com situações estressantes, penso sobre elas de forma diferente para me sentir melhor.',
+  'Controlo minhas emoções não as expressando.',
+  'Quando quero sentir mais emoções positivas, mudo minha forma de pensar sobre a situação.',
+  'Controlo minhas emoções mudando minha forma de pensar.',
+  'Quando estou sentindo emoções negativas, tenho cuidado para não expressá-las.',
+  'Quando quero sentir menos emoções negativas, mudo a minha forma de pensar sobre a situação.'
+];
+var ER = [0,2,4,6,7,9]; // Reavaliação cognitiva
+var ES = [1,3,5,8];     // Supressão expressiva
+
+// ── NAVEGAÇÃO ─────────────────────────────────────────────────
 function ir(n) {
-  var ids = ['s0','s1','s2','s3','s4','s5','s6','sR'];
-  for (var i = 0; i < ids.length; i++) {
-    var el = document.getElementById(ids[i]);
+  ['s0','s1','s2','s3','s4','s5','s6','sR'].forEach(function(id) {
+    var el = document.getElementById(id);
     if (el) el.className = 'step';
-  }
+  });
   var id = (n === 'R') ? 'sR' : 's' + n;
   var el = document.getElementById(id);
   if (el) el.className = 'step on';
@@ -271,6 +441,7 @@ function ir(n) {
   window.scrollTo(0, 0);
 }
 
+// ── RENDER INSTRUMENTOS ───────────────────────────────────────
 function mkQ(wid, items, sc, p) {
   var w = document.getElementById(wid);
   if (!w) return;
@@ -279,11 +450,11 @@ function mkQ(wid, items, sc, p) {
     var d = document.createElement('div');
     d.className = 'qcard';
     d.id = 'q-' + p + '-' + i;
-    var h = '<div class="qnum">Questao ' + (i+1) + ' de ' + items.length + '</div>';
+    var h = '<div class="qnum">Questão ' + (i+1) + ' de ' + items.length + '</div>';
     h += '<div class="qtxt">' + items[i] + '</div>';
     h += '<div class="opts">';
     for (var j = 0; j < sc.length; j++) {
-      h += '<button class="opt" onclick="sel(\'' + p + '\',' + i + ',' + j + ')"><span class="onum">' + j + '</span><span>' + sc[j] + '</span></button>';
+      h += '<button class="opt" onclick="sel(\'' + p + '\',' + i + ',' + j + ')"><span class="onum">' + sc[j].charAt(0) + '</span><span>' + sc[j] + '</span></button>';
     }
     h += '</div>';
     d.innerHTML = h;
@@ -299,11 +470,11 @@ function mkE() {
     var d = document.createElement('div');
     d.className = 'qcard';
     d.id = 'q-e-' + i;
-    var h = '<div class="qnum">Questao ' + (i+1) + ' de ' + EI.length + '</div>';
+    var h = '<div class="qnum">Questão ' + (i+1) + ' de ' + EI.length + '</div>';
     h += '<div class="qtxt">' + EI[i] + '</div>';
     h += '<div class="erq-linha">';
     for (var j = 1; j <= 7; j++) {
-      var lbl = (j===1) ? 'Disc.' : (j===4) ? 'Neutro' : (j===7) ? 'Conc.' : '';
+      var lbl = (j===1) ? 'Discordo' : (j===4) ? 'Neutro' : (j===7) ? 'Concordo' : '';
       h += '<button class="eb" onclick="selE(' + i + ',' + j + ')"><div class="enum">' + j + '</div>' + (lbl ? '<div class="elbl">' + lbl + '</div>' : '') + '</button>';
     }
     h += '</div>';
@@ -317,9 +488,7 @@ function sel(p, i, v) {
   var card = document.getElementById('q-' + p + '-' + i);
   if (!card) return;
   card.className = 'qcard ok';
-  var btns = card.querySelectorAll('.opt');
-  for (var k = 0; k < btns.length; k++) {
-    var b = btns[k];
+  card.querySelectorAll('.opt').forEach(function(b, k) {
     var on = b.querySelector('.onum');
     if (k === v) {
       b.className = 'opt sel';
@@ -328,7 +497,7 @@ function sel(p, i, v) {
       b.className = 'opt';
       if (on) { on.style.background = ''; on.style.color = ''; }
     }
-  }
+  });
 }
 
 function selE(i, v) {
@@ -336,18 +505,18 @@ function selE(i, v) {
   var card = document.getElementById('q-e-' + i);
   if (!card) return;
   card.className = 'qcard ok';
-  var btns = card.querySelectorAll('.eb');
-  for (var k = 0; k < btns.length; k++) {
-    btns[k].className = (k + 1 === v) ? 'eb sel' : 'eb';
-  }
+  card.querySelectorAll('.eb').forEach(function(b, k) {
+    b.className = (k + 1 === v) ? 'eb sel' : 'eb';
+  });
 }
 
+// ── VALIDAÇÃO E NAVEGAÇÃO ─────────────────────────────────────
 function s1() {
   var nm = document.getElementById('fN').value.trim();
   var nb = document.getElementById('fB').value;
   var nd = document.getElementById('fD').value;
   if (!nm || !nb || !nd) { document.getElementById('e1').style.display = 'block'; return; }
-  U = { nome: nm, nasc: nb, data: nd };
+  U = { nome: nm, nasc: nb, data: nd, dest: document.getElementById('fDest').value.trim() };
   document.getElementById('e1').style.display = 'none';
   ir(2);
 }
@@ -378,153 +547,281 @@ function finalizar() {
   calcR();
 }
 
-function calcR() {
-  // PSS
-  var tp = 0;
-  for (var i = 0; i < 10; i++) { var v = R.p['p_' + i]; if (PR.indexOf(i) >= 0) v = 4 - v; tp += v; }
-  var pss = { t: tp, lv: tp<=13?'lo':tp<=26?'mo':'hi', lbl: tp<=13?'Baixo':tp<=26?'Moderado':'Elevado', pct: Math.round(tp/40*100) };
+// ── PONTUAÇÃO ─────────────────────────────────────────────────
+function calcPSS() {
+  var t = 0;
+  for (var i = 0; i < 10; i++) {
+    var v = R.p['p_' + i];
+    if (PR.indexOf(i) >= 0) v = 4 - v;
+    t += v;
+  }
+  return { t: t, lv: t<=13?'lo':t<=26?'mo':'hi', lbl: t<=13?'Baixo':t<=26?'Moderado':'Elevado', pct: Math.round(t/40*100) };
+}
 
-  // GAD
-  var tg = 0;
-  for (var i = 0; i < 7; i++) tg += R.g['g_' + i];
-  var gad = { t: tg, lv: tg<=4?'lo':tg<=9?'mo':'hi', lbl: tg<=4?'Minima':tg<=9?'Leve':tg<=14?'Moderada':'Grave', pct: Math.round(tg/21*100) };
+function calcGAD() {
+  var t = 0;
+  for (var i = 0; i < 7; i++) t += R.g['g_' + i];
+  return { t: t, lv: t<=4?'lo':t<=9?'mo':'hi', lbl: t<=4?'Mínima':t<=9?'Leve':t<=14?'Moderada':'Grave', pct: Math.round(t/21*100) };
+}
 
-  // COPE
+function calcCOPE() {
+  // Escala 1-4: pontuação por subescala = soma dos 2 itens (min=2, max=8)
+  // Porcentagem = (score - 2) / 6 * 100 para refletir corretamente
   var ss = {};
-  for (var nm in CSUB) { var ix = CSUB[nm]; var s = 0; for (var k = 0; k < ix.length; k++) s += (R.c['c_' + ix[k]] || 0); ss[nm] = s; }
+  for (var nm in CSUB) {
+    var ix = CSUB[nm];
+    var s = 0;
+    for (var k = 0; k < ix.length; k++) s += (R.c['c_' + ix[k]] || 1);
+    ss[nm] = s; // range 2-8
+  }
   var st = {};
-  for (var sn in CSTY) { var subs = CSTY[sn]; var sc = 0; var mx = 0; for (var k = 0; k < subs.length; k++) { sc += ss[subs[k]]; mx += CSUB[subs[k]].length * 3; } st[sn] = { score: sc, max: mx, pct: Math.round(sc/mx*100) }; }
-  var cope = { ss: ss, st: st };
+  for (var sn in CSTY) {
+    var subs = CSTY[sn];
+    var score = 0, nItems = 0;
+    for (var k = 0; k < subs.length; k++) {
+      score += ss[subs[k]];
+      nItems += CSUB[subs[k]].length;
+    }
+    var minPoss = nItems * 1; // each item min=1
+    var maxPoss = nItems * 4; // each item max=4
+    st[sn] = { score: score, pct: Math.round((score - minPoss) / (maxPoss - minPoss) * 100) };
+  }
+  return { ss: ss, st: st };
+}
 
-  // CDR
-  var td = 0;
-  for (var i = 0; i < 10; i++) td += R.d['d_' + i];
-  var cdr = { t: td, lv: td<=20?'hi':td<=30?'mo':'lo', lbl: td<=20?'Em desenvolvimento':td<=30?'Moderada':'Elevada', pct: Math.round(td/40*100) };
+function calcCDR() {
+  var t = 0;
+  for (var i = 0; i < 10; i++) t += R.d['d_' + i];
+  return { t: t, lv: t<=20?'hi':t<=30?'mo':'lo', lbl: t<=20?'Em desenvolvimento':t<=30?'Moderada':'Elevada', pct: Math.round(t/40*100) };
+}
 
-  // ERQ
-  var rp = 0; var sp2 = 0;
+function calcERQ() {
+  var rp = 0, sp = 0;
   for (var k = 0; k < ER.length; k++) rp += (R.e['e_' + ER[k]] || 0);
-  for (var k = 0; k < ES.length; k++) sp2 += (R.e['e_' + ES[k]] || 0);
-  rp = Math.round(rp/ER.length*10)/10;
-  sp2 = Math.round(sp2/ES.length*10)/10;
-  var erq = { rp: { v: rp, pct: Math.round((rp-1)/6*100) }, sp: { v: sp2, pct: Math.round((sp2-1)/6*100) } };
+  for (var k = 0; k < ES.length; k++) sp += (R.e['e_' + ES[k]] || 0);
+  rp = Math.round(rp / ER.length * 10) / 10;
+  sp = Math.round(sp / ES.length * 10) / 10;
+  return {
+    rp: { v: rp, pct: Math.round((rp - 1) / 6 * 100) },
+    sp: { v: sp, pct: Math.round((sp - 1) / 6 * 100) }
+  };
+}
 
-  window._sc = { pss: pss, gad: gad, cope: cope, cdr: cdr, erq: erq };
+// ── CONSTRUIR RESULTADO ───────────────────────────────────────
+function calcR() {
+  var pss = calcPSS(), gad = calcGAD(), cope = calcCOPE(), cdr = calcCDR(), erq = calcERQ();
+  window._sc = { pss:pss, gad:gad, cope:cope, cdr:cdr, erq:erq };
 
   var nb = new Date(U.nasc + 'T12:00:00');
   var idade = new Date().getFullYear() - nb.getFullYear();
   var df = new Date(U.data + 'T12:00:00').toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
   var fn = U.nome.split(' ')[0];
 
-  var dom = 'Problema'; var dp = 0;
+  // Estilo dominante
+  var dom = 'Problema', dp = 0;
   for (var s in cope.st) { if (cope.st[s].pct > dp) { dp = cope.st[s].pct; dom = s; } }
 
-  var pf = fn + (pss.lv==='lo' ? ' apresenta baixo estresse percebido.' : pss.lv==='mo' ? ' apresenta estresse moderado. Atencao ao autocuidado durante a adaptacao.' : ' apresenta estresse elevado. Recomenda-se suporte preventivo antes da viagem.') + ' ';
-  pf += (gad.lv==='lo' ? 'Ansiedade minima.' : 'Ansiedade ' + gad.lbl.toLowerCase() + ' identificada.') + ' ';
-  pf += 'Estilo predominante de enfrentamento: Focado no ' + dom + ' (' + dp + '%). ';
-  pf += (cdr.pct>=75 ? 'Alta resiliencia (' + cdr.t + '/40).' : cdr.pct>=50 ? 'Resiliencia moderada (' + cdr.t + '/40).' : 'Resiliencia em desenvolvimento (' + cdr.t + '/40).') + ' ';
-  pf += (erq.rp.v > erq.sp.v ? 'Predomina reavaliacao cognitiva (' + erq.rp.v + '/7).' : 'Predomina supressao expressiva (' + erq.sp.v + '/7).');
-  window._pf = pf;
+  // Pontos fortes e de atenção
+  var str = [], alt = [];
+  if (pss.lv === 'lo') str.push('Estresse percebido baixo');
+  if (gad.lv === 'lo') str.push('Ansiedade mínima');
+  if (cdr.pct >= 65)   str.push('Resiliência elevada (' + cdr.t + '/40)');
+  if (erq.rp.v > erq.sp.v) str.push('Muda o jeito de pensar para lidar com emoções');
+  if (dom === 'Problema') str.push('Enfrentamento focado no problema');
+  if (cope.st['Emocao'].pct >= 60) str.push('Boa capacidade de buscar apoio emocional');
+  if (pss.lv === 'hi') alt.push('Estresse percebido elevado');
+  if (pss.lv === 'mo') alt.push('Estresse moderado — atenção ao autocuidado');
+  if (gad.lbl === 'Moderada' || gad.lbl === 'Grave') alt.push('Ansiedade ' + gad.lbl.toLowerCase());
+  if (cope.st['Disfuncional'].pct > 55) alt.push('Enfrentamento disfuncional predominante');
+  if (cdr.pct < 50) alt.push('Resiliência em desenvolvimento');
+  if (erq.sp.v > erq.rp.v + 1) alt.push('Tende a guardar emoções para si');
+  if (cope.ss['Autocrítica'] >= 6) alt.push('Autocrítica elevada');
+  if (str.length === 0) str.push('Perfil equilibrado — ver detalhes abaixo');
+  if (alt.length === 0) alt.push('Sem alertas significativos');
 
-  var str = []; var alt = [];
-  if (pss.lv==='lo') str.push('Baixo estresse percebido');
-  if (gad.lv==='lo') str.push('Ansiedade minima');
-  if (cdr.pct>=65) str.push('Alta resiliencia (' + cdr.t + '/40)');
-  if (erq.rp.v > erq.sp.v) str.push('Reavaliacao cognitiva predominante');
-  if (dom==='Problema') str.push('Enfrentamento focado no problema');
-  if (pss.lv==='hi') alt.push('Estresse elevado');
-  if (gad.lbl==='Moderada'||gad.lbl==='Grave') alt.push('Ansiedade ' + gad.lbl.toLowerCase());
-  if (cope.st['Disfuncional'].pct>50) alt.push('Alto enfrentamento disfuncional');
-  if (cdr.pct<50) alt.push('Resiliencia em desenvolvimento');
-  if (erq.sp.v > erq.rp.v+1) alt.push('Supressao emocional elevada');
+  // Explicações por escala
+  var expPSS = pss.lv === 'lo'
+    ? 'Você está conseguindo lidar bem com as pressões do dia a dia. Sua sensação de controle sobre as situações está equilibrada — isso é um recurso importante para a adaptação ao intercâmbio.'
+    : pss.lv === 'mo'
+    ? 'Você está sentindo uma pressão razoável neste momento, o que é muito natural antes de uma grande mudança. Cuidar do sono, da alimentação e ter pequenas pausas de descanso vai fazer grande diferença durante a adaptação.'
+    : 'Seu nível de estresse está alto. Isso indica que seu corpo e mente estão sinalizando sobrecarga. Apoiar-se em pessoas de confiança e criar pequenas rotinas de cuidado serão fundamentais antes e durante o intercâmbio.';
 
-  function bcRow(lbl, pct, cor) {
-    return '<div class="bc"><div class="bc-lbl">' + lbl + '</div><div class="bc-trilha"><div class="bc-fill" style="width:' + pct + '%;background:' + cor + '"></div></div><div class="bc-pct">' + pct + '%</div></div>';
+  var expGAD = gad.lv === 'lo'
+    ? 'Seus sinais de ansiedade estão mínimos. Você está emocionalmente equilibrado(a) neste momento — ótimo ponto de partida para uma grande mudança.'
+    : gad.lbl === 'Leve'
+    ? 'Há sinais de ansiedade leve, muito comuns antes de grandes mudanças. Com ferramentas simples de respiração e manejo do pensamento, é fácil de equilibrar no dia a dia.'
+    : gad.lbl === 'Moderada'
+    ? 'A ansiedade está em nível moderado. Isso significa que preocupações frequentes podem estar consumindo energia. Aprender a reconhecer esses pensamentos e trabalhar a tolerância à incerteza fará grande diferença no intercâmbio.'
+    : 'O nível de ansiedade está elevado e merece atenção especializada. Conversar com a Dra. Lívia antes e durante o intercâmbio será muito importante para o seu bem-estar.';
+
+  var expCOPE = dom === 'Problema'
+    ? 'Seu estilo predominante é o enfrentamento focado no problema: você tende a agir, planejar e buscar soluções quando algo difícil acontece. Isso é um ponto forte — você não fica parado(a) quando as coisas complicam. No intercâmbio, essa característica ajuda muito na adaptação prática.'
+    : dom === 'Emocao'
+    ? 'Seu estilo predominante é o enfrentamento focado na emoção: você busca apoio, processa os sentimentos e usa o humor e a espiritualidade para lidar com dificuldades. Isso mostra capacidade de conexão e autocuidado emocional — recursos valiosos longe de casa.'
+    : 'Seu estilo predominante apresenta estratégias de evasão, como evitar pensar no problema, se distrair ou se autocriticar. Isso não é fraqueza — é um sinal de que estratégias mais funcionais podem ser desenvolvidas para o contexto do intercâmbio.';
+
+  var expCDR = cdr.pct < 50
+    ? 'Sua resiliência está em desenvolvimento. Você tem recursos internos que, com as estratégias certas, crescerão bastante — especialmente ao longo do intercâmbio, que por si só é uma experiência que fortalece a resiliência.'
+    : cdr.pct < 75
+    ? 'Você tem boa capacidade de se recuperar de situações difíceis, especialmente quando conta com apoio. O intercâmbio vai fortalecer ainda mais essa habilidade.'
+    : 'Alta resiliência! Você tem excelente capacidade de se adaptar e se recuperar de adversidades. Esse é um dos seus maiores recursos para o intercâmbio.';
+
+  var expERQ = erq.rp.v > erq.sp.v
+    ? 'Quando algo te perturba, você tende a mudar a forma como pensa sobre a situação antes de reagir. Por exemplo, em vez de pensar "não vou conseguir", você transforma isso em "posso tentar de outro jeito". Esse é um recurso muito útil no intercâmbio — ajuda a encarar o choque cultural com mais calma e abertura.'
+    : erq.sp.v > erq.rp.v + 0.5
+    ? 'Quando você está sentindo algo difícil, tende a guardar essa emoção para dentro em vez de expressá-la. Em situações pontuais isso funciona, mas em períodos de estresse prolongado — como as primeiras semanas fora do Brasil — acumular emoções pode aumentar o cansaço e a ansiedade. Encontrar pessoas de confiança para conversar será muito importante no intercâmbio.'
+    : 'Você usa as duas formas de lidar com as emoções de maneira equilibrada: às vezes muda sua forma de pensar sobre a situação, outras vezes prefere não mostrar o que está sentindo. Essa flexibilidade é um ponto positivo.';
+
+  // Gráfico helper
+  function bcRow(lbl, pct, cor, small) {
+    var cls = small ? 'bc-lbl-sm' : 'bc-lbl';
+    return '<div class="bc"><div class="' + cls + '">' + lbl + '</div><div class="bc-trilha"><div class="bc-fill" style="width:' + pct + '%;background:' + cor + '"></div></div><div class="bc-pct">' + pct + '%</div></div>';
   }
 
+  // COPE styles
   var stHtml = '<div class="barra-chart">';
   stHtml += bcRow('Focado no Problema', cope.st['Problema'].pct, '#2e7d5b');
-  stHtml += bcRow('Focado na Emocao', cope.st['Emocao'].pct, '#c17b2a');
-  stHtml += bcRow('Disfuncional', cope.st['Disfuncional'].pct, '#b33a3a');
+  stHtml += bcRow('Focado na Emoção',   cope.st['Emocao'].pct,   '#c17b2a');
+  stHtml += bcRow('Disfuncional',        cope.st['Disfuncional'].pct, '#b33a3a');
   stHtml += '</div>';
 
+  // COPE subscales
   var subHtml = '<div class="barra-chart">';
   for (var nm in CSUB) {
-    var raw = cope.ss[nm]; var mx2 = CSUB[nm].length * 3; var pct2 = Math.round(raw/mx2*100);
-    var isP = CSTY['Problema'].indexOf(nm) >= 0; var isE = CSTY['Emocao'].indexOf(nm) >= 0;
-    subHtml += bcRow(nm, pct2, isP ? '#2e7d5b' : isE ? '#c17b2a' : '#b33a3a');
+    var raw = cope.ss[nm];
+    var pct2 = Math.round((raw - 2) / 6 * 100);
+    var isP = CSTY['Problema'].indexOf(nm) >= 0;
+    var isE = CSTY['Emocao'].indexOf(nm) >= 0;
+    subHtml += bcRow(nm, pct2, isP ? '#2e7d5b' : isE ? '#c17b2a' : '#b33a3a', true);
   }
   subHtml += '</div>';
 
-  var erqHtml = '<div class="barra-chart">';
-  erqHtml += bcRow('Reavaliacao Cog.', erq.rp.pct, '#2e7d5b');
-  erqHtml += bcRow('Supressao Expr.', erq.sp.pct, '#c17b2a');
-  erqHtml += '</div>';
-
+  // CDR items com descrição
   var cdrHtml = '<div class="barra-chart">';
   for (var i = 0; i < 10; i++) {
-    var v2 = R.d['d_' + i]; var pct3 = Math.round(v2/4*100);
-    cdrHtml += bcRow('Item ' + (i+1), pct3, v2>=3 ? '#2e7d5b' : v2>=2 ? '#c17b2a' : '#b33a3a');
+    var v2 = R.d['d_' + i];
+    var pct3 = Math.round(v2 / 4 * 100);
+    var cor = v2 >= 3 ? '#2e7d5b' : v2 >= 2 ? '#c17b2a' : '#b33a3a';
+    cdrHtml += bcRow(DI_CURTO[i], pct3, cor, true);
   }
   cdrHtml += '</div>';
 
+  // ERQ
+  var erqHtml = '<div class="barra-chart">';
+  erqHtml += bcRow('Mudo meu jeito de pensar', erq.rp.pct, '#1a2e4a');
+  erqHtml += bcRow('Guardo as emoções pra mim', erq.sp.pct, '#5a5349');
+  erqHtml += '</div>';
+
+  // ─── MONTAR HTML DO RESULTADO ───────────────────────────────
   var h = '';
-  h += '<div class="rhero"><div class="rname">' + U.nome + '</div><div class="rmeta">' + idade + ' anos &middot; Check-In Emocional &middot; ' + df + '</div></div>';
-  h += '<div class="rsec"><div class="rstl">Perfil Geral</div>';
-  h += '<div class="interp"><h4>Interpretacao do Perfil</h4><p>' + pf + '</p></div>';
-  h += '<div class="fgrid"><div class="fc str"><strong>Pontos fortes</strong>' + (str.length ? str.map(function(s){return '&bull; '+s;}).join('<br>') : 'Ver devolutiva') + '</div>';
-  h += '<div class="fc alt"><strong>Pontos de atencao</strong>' + (alt.length ? alt.map(function(a){return '&bull; '+a;}).join('<br>') : 'Sem alertas') + '</div></div></div>';
-  h += '<div class="rsec"><div class="rstl">Pontuacoes</div><div class="cgrid">';
-  h += '<div class="sc ' + pss.lv + '"><div class="slbl">Estresse PSS-10</div><div class="sval">' + pss.t + '<span>/40</span></div><div class="stag">' + pss.lbl + '</div></div>';
-  h += '<div class="sc ' + gad.lv + '"><div class="slbl">Ansiedade GAD-7</div><div class="sval">' + gad.t + '<span>/21</span></div><div class="stag">' + gad.lbl + '</div></div>';
-  h += '<div class="sc ' + cdr.lv + '"><div class="slbl">Resiliencia CD-RISC</div><div class="sval">' + cdr.t + '<span>/40</span></div><div class="stag">' + cdr.lbl + '</div></div>';
-  h += '<div class="sc lo"><div class="slbl">Regulacao ERQ</div><div class="sval">' + erq.rp.v + '<span>/7</span></div><div class="stag">R:' + erq.rp.v + ' S:' + erq.sp.v + '</div></div>';
+
+  // Hero
+  h += '<div class="rhero">';
+  h += '<div class="rname">' + U.nome + '</div>';
+  h += '<div class="rmeta">' + idade + ' anos &nbsp;·&nbsp; Check-In Emocional &nbsp;·&nbsp; ' + df + '</div>';
+  if (U.dest) h += '<div class="rdest">✈ ' + U.dest + '</div>';
+  h += '</div>';
+
+  // Aviso
+  h += '<div class="aviso"><strong>Lembrete:</strong> Este é um mapeamento preventivo, não um diagnóstico. Os resultados serão discutidos na sua devolutiva individual com a Dra. Lívia Melo.</div>';
+
+  // Perfil: pontos fortes e atenção
+  h += '<div class="rsec"><div class="rstl">Seu Perfil Emocional</div>';
+  h += '<div class="fgrid">';
+  h += '<div class="fc str"><strong>✦ Pontos Fortes</strong>' + str.map(function(s){ return '&bull; ' + s; }).join('<br>') + '</div>';
+  h += '<div class="fc alt"><strong>⚑ Pontos de Atenção</strong>' + alt.map(function(a){ return '&bull; ' + a; }).join('<br>') + '</div>';
   h += '</div></div>';
-  h += '<div class="rsec"><div class="rstl">Estilos de Enfrentamento</div><div class="cbox"><div class="cttl">Por Estilo</div>' + stHtml + '</div><div class="cbox"><div class="cttl">Subescalas</div>' + subHtml + '</div></div>';
-  h += '<div class="rsec"><div class="rstl">Regulacao Emocional ERQ</div><div class="cbox">' + erqHtml + '</div></div>';
-  h += '<div class="rsec"><div class="rstl">Resiliencia por Item CD-RISC</div><div class="cbox">' + cdrHtml + '</div></div>';
-  h += '<div class="sbox"><div class="sbox-t">Enviar para Dra. Livia Melo</div><p class="sbox-s">Compartilhe seus resultados pelo WhatsApp ou copie o texto.</p><div class="sbtns"><button class="btn btn-g" onclick="abrirM()">Enviar Resultados</button><button class="btn btn-p" onclick="window.print()">Imprimir</button></div></div>';
+
+  // PSS-10
+  h += '<div class="rsec"><div class="rstl">Estresse Percebido &nbsp;<small style="font-size:.7rem;font-weight:normal;color:#9c9488">PSS-10</small></div>';
+  h += '<div class="cgrid" style="grid-template-columns:1fr">';
+  h += '<div class="sc ' + pss.lv + '"><div class="slbl">Pontuação · máx 40 pontos</div><div class="sval">' + pss.t + '<span>/40</span></div><div class="stag">' + pss.lbl + '</div></div>';
+  h += '</div>';
+  h += '<div class="exp-box"><div class="exp-icon">O que isso significa</div><p class="exp-txt">' + expPSS + '</p></div>';
+  h += '</div>';
+
+  // GAD-7
+  h += '<div class="rsec"><div class="rstl">Ansiedade Generalizada &nbsp;<small style="font-size:.7rem;font-weight:normal;color:#9c9488">GAD-7</small></div>';
+  h += '<div class="cgrid" style="grid-template-columns:1fr">';
+  h += '<div class="sc ' + gad.lv + '"><div class="slbl">Pontuação · máx 21 pontos</div><div class="sval">' + gad.t + '<span>/21</span></div><div class="stag">' + gad.lbl + '</div></div>';
+  h += '</div>';
+  h += '<div class="exp-box"><div class="exp-icon">O que isso significa</div><p class="exp-txt">' + expGAD + '</p></div>';
+  h += '</div>';
+
+  // COPE
+  h += '<div class="rsec"><div class="rstl">Estilos de Enfrentamento &nbsp;<small style="font-size:.7rem;font-weight:normal;color:#9c9488">Brief COPE</small></div>';
+  h += '<div class="exp-box"><div class="exp-icon">O que isso significa</div><p class="exp-txt">' + expCOPE + '</p></div>';
+  h += '<div class="cbox"><div class="cttl">Distribuição por estilo</div>' + stHtml + '</div>';
+  h += '<div class="cbox"><div class="cttl">Subescalas detalhadas</div>' + subHtml + '</div>';
+  h += '</div>';
+
+  // CD-RISC
+  h += '<div class="rsec"><div class="rstl">Resiliência &nbsp;<small style="font-size:.7rem;font-weight:normal;color:#9c9488">CD-RISC-10</small></div>';
+  h += '<div class="cgrid" style="grid-template-columns:1fr">';
+  h += '<div class="sc ' + cdr.lv + '"><div class="slbl">Pontuação · máx 40 pontos</div><div class="sval">' + cdr.t + '<span>/40</span></div><div class="stag">' + cdr.lbl + '</div></div>';
+  h += '</div>';
+  h += '<div class="exp-box"><div class="exp-icon">O que isso significa</div><p class="exp-txt">' + expCDR + '</p></div>';
+  h += '<div class="cbox"><div class="cttl">Pontuação por habilidade</div>' + cdrHtml + '</div>';
+  h += '</div>';
+
+  // ERQ
+  h += '<div class="rsec"><div class="rstl">Como você lida com suas emoções &nbsp;<small style="font-size:.7rem;font-weight:normal;color:#9c9488">ERQ</small></div>';
+  h += '<div class="cgrid">';
+  h += '<div class="sc neu"><div class="slbl">Mudo meu jeito de pensar</div><div class="sval">' + erq.rp.v + '<span>/7</span></div><div class="stag">Sua tendência</div></div>';
+  h += '<div class="sc neu"><div class="slbl">Guardo as emoções pra mim</div><div class="sval">' + erq.sp.v + '<span>/7</span></div><div class="stag">Sua tendência</div></div>';
+  h += '</div>';
+  h += '<div class="exp-box"><div class="exp-icon">O que isso significa</div><p class="exp-txt">' + expERQ + '</p></div>';
+  h += '<div class="cbox"><div class="cttl">Qual estratégia você usa mais</div>' + erqHtml + '</div>';
+  h += '</div>';
+
+  // Envio
+  h += '<div class="sbox"><div class="sbox-t">Enviar para Dra. Lívia Melo</div>';
+  h += '<p class="sbox-s">Compartilhe seus resultados para receber sua devolutiva personalizada.</p>';
+  h += '<div class="sbtns"><button class="btn btn-g" onclick="abrirM()">Enviar Resultados</button>';
+  h += '<button class="btn btn-p" onclick="window.print()">🖨 Imprimir</button></div></div>';
 
   document.getElementById('sR').innerHTML = h;
   ir('R');
 }
 
+// ── MODAL ENVIO ───────────────────────────────────────────────
 function abrirM() {
   var sc = window._sc;
   var subs = '';
   for (var nm in sc.cope.ss) subs += nm + ': ' + sc.cope.ss[nm] + '\n';
-  var txt = 'CHECK-IN EMOCIONAL\n'
+  var txt = 'CHECK-IN EMOCIONAL — INTERCÂMBIO\n'
+    + '=====================================\n'
     + 'Nome: ' + U.nome + '\n'
-    + 'Nasc: ' + U.nasc + ' | Data: ' + U.data + '\n\n'
-    + 'PONTUACOES\n'
-    + 'Estresse PSS-10: ' + sc.pss.t + '/40 - ' + sc.pss.lbl + '\n'
-    + 'Ansiedade GAD-7: ' + sc.gad.t + '/21 - ' + sc.gad.lbl + '\n'
-    + 'Resiliencia CD-RISC: ' + sc.cdr.t + '/40 - ' + sc.cdr.lbl + '\n'
-    + 'ERQ Reavaliacao: ' + sc.erq.rp.v + '/7 | Supressao: ' + sc.erq.sp.v + '/7\n\n'
-    + 'ENFRENTAMENTO\n'
+    + (U.dest ? 'Destino: ' + U.dest + '\n' : '')
+    + 'Nascimento: ' + U.nasc + ' | Avaliação: ' + U.data + '\n\n'
+    + 'PONTUAÇÕES\n'
+    + 'Estresse PSS-10: ' + sc.pss.t + '/40 — ' + sc.pss.lbl + '\n'
+    + 'Ansiedade GAD-7: ' + sc.gad.t + '/21 — ' + sc.gad.lbl + '\n'
+    + 'Resiliência CD-RISC-10: ' + sc.cdr.t + '/40 — ' + sc.cdr.lbl + '\n'
+    + 'ERQ Reavaliação: ' + sc.erq.rp.v + '/7 | Supressão: ' + sc.erq.sp.v + '/7\n\n'
+    + 'ESTILOS DE ENFRENTAMENTO (Brief COPE)\n'
     + 'Focado no Problema: ' + sc.cope.st['Problema'].pct + '%\n'
-    + 'Focado na Emocao: ' + sc.cope.st['Emocao'].pct + '%\n'
+    + 'Focado na Emoção: ' + sc.cope.st['Emocao'].pct + '%\n'
     + 'Disfuncional: ' + sc.cope.st['Disfuncional'].pct + '%\n\n'
-    + 'SUBESCALAS\n' + subs
-    + '\nPERFIL\n' + window._pf;
+    + 'SUBESCALAS COPE\n' + subs;
   document.getElementById('mTxt').value = txt;
   document.getElementById('modal').className = 'mov on';
   document.getElementById('cpOk').style.display = 'none';
 }
 
-function envWpp() {
+function envW() {
   var txt = document.getElementById('mTxt').value;
   window.open('https://wa.me/5585996167976?text=' + encodeURIComponent(txt), '_blank');
 }
 
-function copiar() {
+function cpTxt() {
   var ta = document.getElementById('mTxt');
-  ta.select();
-  ta.setSelectionRange(0, 99999);
+  ta.select(); ta.setSelectionRange(0, 99999);
   try { document.execCommand('copy'); } catch(e) {}
   document.getElementById('cpOk').style.display = 'block';
 }
 
+// ── INIT ──────────────────────────────────────────────────────
 document.getElementById('fD').value = new Date().toISOString().split('T')[0];
 mkQ('wP', PI, PS, 'p');
 mkQ('wG', GI, GS, 'g');
@@ -532,6 +829,5 @@ mkQ('wC', CI, CS, 'c');
 mkQ('wD', DI, DS, 'd');
 mkE();
 </script>
-
 </body>
 </html>
