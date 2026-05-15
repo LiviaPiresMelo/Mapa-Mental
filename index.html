@@ -197,7 +197,7 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 
 <!-- STEP 1: IDENTIFICAÇÃO -->
 <div class="step" id="s1">
-  <div class="sth"><span class="badge">Etapa 1 de 6</span><div class="sttl">Identificação</div><p class="ssub">Preencha seus dados antes de iniciar.</p></div>
+  <div class="sth"><span class="badge">Etapa 1 de 7</span><div class="sttl">Identificação</div><p class="ssub">Preencha seus dados antes de iniciar.</p></div>
   <div class="fg"><label class="fl">Nome completo</label><input class="fi" type="text" id="fN" placeholder="Seu nome completo" autocomplete="name"></div>
   <div class="fg"><label class="fl">Data de nascimento</label><input class="fi" type="date" id="fB"></div>
   <div class="fg"><label class="fl">Data da avaliação</label><input class="fi" type="date" id="fD"></div>
@@ -263,7 +263,20 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
   </div>
   <div id="wE"></div>
   <div class="erro" id="e6">Responda todas as questões para continuar.</div>
-  <div class="nav"><button class="btn btn-s" onclick="ir(5)">← Voltar</button><button class="btn btn-g" onclick="finalizar()">Ver meu perfil →</button></div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(5)">← Voltar</button><button class="btn btn-p" onclick="finalizar()">Próximo →</button></div>
+</div>
+
+
+<!-- STEP 7: BFI-10 PERSONALIDADE -->
+<div class="step" id="s7">
+  <div class="sth"><span class="badge">Instrumento 6 · Personalidade</span><div class="sttl">Perfil de Personalidade</div><p class="ssub">BFI-10 · Rammstedt & John, 2007 · Adaptação brasileira</p></div>
+  <div class="instr">
+    <b>Instruções:</b> Leia cada frase abaixo e indique o quanto ela descreve você. Não há resposta certa ou errada — responda de forma honesta.
+    <span class="instr-ref">1 = Discordo fortemente &nbsp;·&nbsp; 5 = Concordo fortemente</span>
+  </div>
+  <div id="wB"></div>
+  <div class="erro" id="e7">Responda todas as questões para continuar.</div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(6)">← Voltar</button><button class="btn btn-g" onclick="finalizarB()">Ver meu perfil →</button></div>
 </div>
 
 <!-- RESULTS -->
@@ -293,8 +306,8 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 <script>
 // ── STATE ──────────────────────────────────────────────────────
 var U = {};
-var R = { p:{}, g:{}, c:{}, d:{}, e:{} };
-var LBLS = ['Início','Identificação','Estresse (PSS-10)','Ansiedade (GAD-7)','Enfrentamento (COPE)','Resiliência (CD-RISC)','Regulação (ERQ)','Resultados'];
+var R = { p:{}, g:{}, c:{}, d:{}, e:{}, b:{} };
+var LBLS = ['Início','Identificação','Estresse (PSS-10)','Ansiedade (GAD-7)','Enfrentamento (COPE)','Resiliência (CD-RISC)','Regulação (ERQ)','Personalidade (BFI-10)','Resultados'];
 
 // ── PSS-10 ─────────────────────────────────────────────────────
 // Versão validada: Luft et al. (2007), Rev. Saúde Pública
@@ -433,10 +446,10 @@ function ir(n) {
   var id = (n === 'R') ? 'sR' : 's' + n;
   var el = document.getElementById(id);
   if (el) el.className = 'step on';
-  var pct = (n === 'R') ? 100 : Math.round(parseInt(n) / 7 * 100);
+  var pct = (n === 'R') ? 100 : Math.round(parseInt(n) / 8 * 100);
   document.getElementById('pBar').style.width = pct + '%';
   document.getElementById('pPct').textContent = pct + '%';
-  var li = (n === 'R') ? 7 : parseInt(n);
+  var li = (n === 'R') ? 8 : parseInt(n);
   document.getElementById('pLbl').textContent = LBLS[li] || '';
   window.scrollTo(0, 0);
 }
@@ -544,7 +557,7 @@ function finalizar() {
     }
   }
   document.getElementById('e6').style.display = 'none';
-  calcR();
+  ir(7);
 }
 
 // ── PONTUAÇÃO ─────────────────────────────────────────────────
@@ -609,8 +622,8 @@ function calcERQ() {
 
 // ── CONSTRUIR RESULTADO ───────────────────────────────────────
 function calcR() {
-  var pss = calcPSS(), gad = calcGAD(), cope = calcCOPE(), cdr = calcCDR(), erq = calcERQ();
-  window._sc = { pss:pss, gad:gad, cope:cope, cdr:cdr, erq:erq };
+  var pss = calcPSS(), gad = calcGAD(), cope = calcCOPE(), cdr = calcCDR(), erq = calcERQ(), bfi = calcBFI();
+  window._sc = { pss:pss, gad:gad, cope:cope, cdr:cdr, erq:erq, bfi:bfi };
 
   var nb = new Date(U.nasc + 'T12:00:00');
   var idade = new Date().getFullYear() - nb.getFullYear();
@@ -712,6 +725,118 @@ function calcR() {
   erqHtml += bcRow('Guardo as emoções pra mim', erq.sp.pct, '#5a5349');
   erqHtml += '</div>';
 
+
+  // ── BFI EXPLANATIONS ──────────────────────────────────────
+  var bfiDescs = {
+    'Extroversão': {
+      high: 'Você é sociável e se energiza com pessoas. Isso é um ponto forte enorme no intercâmbio — vai facilitar muito fazer novos amigos e se sentir em casa em uma nova cultura.',
+      low: 'Você prefere conexões mais profundas a muitas relações superficiais. No intercâmbio, isso significa que pode demorar um pouco mais para criar vínculos — e tudo bem. Qualidade é melhor que quantidade.',
+      label_high: 'Extrovertido(a)',
+      label_low: 'Introvertido(a)',
+      label_mid: 'Equilibrado(a)'
+    },
+    'Amabilidade': {
+      high: 'Você é cooperativo(a) e fácil de conviver. Isso facilita muito a relação com a família hospedeira e colegas de escola no intercâmbio.',
+      low: 'Você tem opiniões firmes e nem sempre cede. No intercâmbio, será importante praticar a flexibilidade cultural — o que é diferente não é errado, é apenas diferente.',
+      label_high: 'Cooperativo(a)',
+      label_low: 'Assertivo(a)',
+      label_mid: 'Equilibrado(a)'
+    },
+    'Conscienciosidade': {
+      high: 'Você é organizado(a) e cumpre o que se compromete. Isso vai ajudar muito a manter uma rotina saudável longe de casa.',
+      low: 'Você tem um jeito mais flexível e espontâneo. No intercâmbio, criar pelo menos uma rotina mínima (sono, alimentação) vai ser importante para sua estabilidade emocional.',
+      label_high: 'Organizado(a)',
+      label_low: 'Flexível',
+      label_mid: 'Equilibrado(a)'
+    },
+    'Neuroticismo': {
+      high: 'Você sente as emoções com intensidade e pode se abalar mais em situações de estresse. Isso significa que o choque cultural pode ser mais intenso — por isso é tão importante ter um plano de apoio.',
+      low: 'Você tem boa estabilidade emocional e não se abala facilmente. Isso é um recurso valioso para atravessar o choque cultural com mais tranquilidade.',
+      label_high: 'Sensível emocionalmente',
+      label_low: 'Estável emocionalmente',
+      label_mid: 'Moderado(a)'
+    },
+    'Abertura': {
+      high: 'Você é curioso(a) e aberto(a) a novas experiências. Isso é um presente para o intercâmbio — vai abraçar a nova cultura, a comida, os costumes com entusiasmo.',
+      low: 'Você prefere o familiar e pode ter mais resistência ao diferente. Isso é natural, mas no intercâmbio será um ponto de atenção: abrir-se ao novo faz parte da experiência.',
+      label_high: 'Aberto(a) a novidades',
+      label_low: 'Prefere o familiar',
+      label_mid: 'Moderado(a)'
+    }
+  };
+
+  var bfiHtml = '<div class="barra-chart">';
+  var bfiStr = [], bfiAlt = [];
+  for (var dim in bfi) {
+    var score = bfi[dim];
+    var pct = Math.round((score - 1) / 4 * 100);
+    var isHigh = score >= 3.5;
+    var isMid = score >= 2.5 && score < 3.5;
+    var cor = isHigh ? '#2e7d5b' : isMid ? '#c17b2a' : '#1a2e4a';
+    var lbl = isHigh ? bfiDescs[dim].label_high : isMid ? bfiDescs[dim].label_mid : bfiDescs[dim].label_low;
+    bfiHtml += '<div class="bc"><div class="bc-lbl">' + dim + '</div><div class="bc-trilha"><div class="bc-fill" style="width:'+pct+'%;background:'+cor+'"></div></div><div class="bc-pct">' + score.toFixed(1) + '</div></div>';
+    // collect for synthesis
+    if (dim === 'Neuroticismo' && isHigh) bfiAlt.push('Alta sensibilidade emocional (Neuroticismo)');
+    if (dim === 'Abertura' && !isHigh && !isMid) bfiAlt.push('Baixa abertura a novas experiências');
+    if (dim === 'Conscienciosidade' && !isHigh && !isMid) bfiAlt.push('Baixa organização e disciplina');
+    if (dim === 'Extroversão' && isHigh) bfiStr.push('Perfil extrovertido — facilidade social');
+    if (dim === 'Abertura' && isHigh) bfiStr.push('Alta abertura a novas experiências');
+    if (dim === 'Conscienciosidade' && isHigh) bfiStr.push('Alta organização e disciplina');
+    if (dim === 'Neuroticismo' && !isHigh && !isMid) bfiStr.push('Boa estabilidade emocional');
+    if (dim === 'Amabilidade' && isHigh) bfiStr.push('Facilidade de convivência e cooperação');
+  }
+  bfiHtml += '</div>';
+
+  // Merge BFI str/alt with existing
+  bfiStr.forEach(function(s){ if (str.indexOf(s) < 0) str.push(s); });
+  bfiAlt.forEach(function(a){ if (alt.indexOf(a) < 0) alt.push(a); });
+
+  // ── SYNTHESIS ─────────────────────────────────────────────
+  var fn2 = U.nome.split(' ')[0];
+  var topStr = str.slice(0,4);
+  var topAlt = alt.slice(0,4);
+
+  var synthText = fn2 + ', este é o seu retrato emocional antes do intercâmbio. ';
+
+  // Stress + anxiety combo
+  if (pss.lv === 'lo' && gad.lv === 'lo') {
+    synthText += 'Você parte de um estado emocional equilibrado, com baixo estresse e ansiedade mínima — uma base sólida. ';
+  } else if (pss.lv !== 'lo' || gad.lv !== 'lo') {
+    synthText += 'Há sinais de tensão emocional que merecem atenção antes da viagem — o que é completamente natural diante de uma grande mudança. ';
+  }
+
+  // Coping
+  if (dom === 'Problema') {
+    synthText += 'Seu estilo de enfrentamento mostra que você age quando algo dá errado, o que é uma força real. ';
+  } else if (dom === 'Emocao') {
+    synthText += 'Você tem uma boa capacidade de buscar apoio e processar emoções, o que vai ser muito útil longe de casa. ';
+  } else {
+    synthText += 'Seu padrão de enfrentamento tem pontos de crescimento importantes que, quando trabalhados, vão fazer grande diferença na adaptação. ';
+  }
+
+  // Resilience
+  if (cdr.pct >= 65) {
+    synthText += 'Sua resiliência é elevada — você se recupera bem de situações difíceis. ';
+  } else if (cdr.pct >= 50) {
+    synthText += 'Sua resiliência é moderada e tem muito espaço para crescer. ';
+  } else {
+    synthText += 'Sua resiliência ainda está se desenvolvendo — esse será um foco importante do seu processo. ';
+  }
+
+  // Personality highlight
+  var extScore = bfi['Extroversão'];
+  var aberScore = bfi['Abertura'];
+  if (extScore >= 3.5 && aberScore >= 3.5) {
+    synthText += 'Sua personalidade é extrovertida e aberta ao novo — dois ingredientes perfeitos para aproveitar ao máximo a experiência cultural. ';
+  } else if (extScore < 2.5) {
+    synthText += 'Sua introversão pode significar que vai precisar de mais tempo para se sentir confortável — e isso é válido e respeitável. ';
+  } else if (aberScore < 2.5) {
+    synthText += 'Sua preferência pelo familiar vai ser desafiada no intercâmbio — e esse desafio, quando acolhido, é um dos maiores presentes da experiência. ';
+  }
+
+  synthText += 'Seus pontos de atenção não são fraquezas — são oportunidades de crescimento que serão trabalhadas no seu Plano de Ação Individual.';
+
+
   // ─── MONTAR HTML DO RESULTADO ───────────────────────────────
   var h = '';
 
@@ -774,6 +899,44 @@ function calcR() {
   h += '<div class="cbox"><div class="cttl">Qual estratégia você usa mais</div>' + erqHtml + '</div>';
   h += '</div>';
 
+
+  // BFI-10 PERSONALITY SECTION
+  h += '<div class="rsec"><div class="rstl">Perfil de Personalidade &nbsp;<small style="font-size:.7rem;font-weight:normal;color:#9c9488">BFI-10</small></div>';
+  h += '<div class="cbox"><div class="cttl">Suas cinco dimensões de personalidade (escala 1–5)</div>' + bfiHtml + '</div>';
+
+  // Cards per dimension with explanation
+  for (var dim in bfi) {
+    var sc2 = bfi[dim];
+    var isH = sc2 >= 3.5, isM = sc2 >= 2.5 && sc2 < 3.5;
+    var expD = isH ? bfiDescs[dim].high : isM ? (bfiDescs[dim].high + ' ' + bfiDescs[dim].low).substring(0,120)+'...' : bfiDescs[dim].low;
+    var lbl2 = isH ? bfiDescs[dim].label_high : isM ? bfiDescs[dim].label_mid : bfiDescs[dim].label_low;
+    var cor2 = isH ? '#2e7d5b' : isM ? '#c17b2a' : '#1a2e4a';
+    h += '<div class="exp-box" style="border-left-color:' + cor2 + '">';
+    h += '<div class="exp-icon" style="color:' + cor2 + '">' + dim + ' &nbsp;·&nbsp; ' + lbl2 + ' (' + sc2.toFixed(1) + '/5)</div>';
+    h += '<p class="exp-txt">' + expD + '</p></div>';
+  }
+  h += '</div>';
+
+  // SYNTHESIS SECTION
+  h += '<div class="rsec"><div class="rstl">Seu Retrato Completo</div>';
+  h += '<div style="background:#1a2e4a;border-radius:14px;padding:22px 18px;margin-bottom:14px">';
+  h += '<div style="font-size:.65rem;font-weight:bold;text-transform:uppercase;letter-spacing:.1em;color:#b8922a;margin-bottom:10px">Análise Integradora · Todos os instrumentos</div>';
+  h += '<p style="font-size:.88rem;color:rgba(255,255,255,.92);line-height:1.8">' + synthText + '</p>';
+  h += '</div>';
+
+  // Strengths grid
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">';
+  h += '<div class="fc str"><strong>✦ Seus Pontos Fortes</strong>' + topStr.map(function(s){return '&bull; '+s;}).join('<br>') + '</div>';
+  h += '<div class="fc alt"><strong>⚑ Pontos de Crescimento</strong>' + topAlt.map(function(a){return '&bull; '+a;}).join('<br>') + '</div>';
+  h += '</div>';
+
+  // CTA for action plan
+  h += '<div style="background:#b8922a;border-radius:11px;padding:16px;text-align:center">';
+  h += '<div style="font-size:.7rem;font-weight:bold;text-transform:uppercase;letter-spacing:.09em;color:#1a2e4a;margin-bottom:6px">Próximo Passo</div>';
+  h += '<p style="font-size:.88rem;color:#1a2e4a;line-height:1.65;font-weight:bold">Seus pontos de crescimento serão trabalhados no <br><span style="font-size:1rem">Plano de Ação Individual</span><br>com a Dra. Lívia Melo.</p>';
+  h += '</div>';
+  h += '</div>';
+
   // Envio
   h += '<div class="sbox"><div class="sbox-t">Enviar para Dra. Lívia Melo</div>';
   h += '<p class="sbox-s">Compartilhe seus resultados para receber sua devolutiva personalizada.</p>';
@@ -803,7 +966,9 @@ function abrirM() {
     + 'Focado no Problema: ' + sc.cope.st['Problema'].pct + '%\n'
     + 'Focado na Emoção: ' + sc.cope.st['Emocao'].pct + '%\n'
     + 'Disfuncional: ' + sc.cope.st['Disfuncional'].pct + '%\n\n'
-    + 'SUBESCALAS COPE\n' + subs;
+    + 'SUBESCALAS COPE\n' + subs
+    + '\nPERSONALIDADE (BFI-10)\n'
+    + Object.keys(sc.bfi).map(function(d){ return d + ': ' + sc.bfi[d].toFixed(1) + '/5'; }).join('\n');
   document.getElementById('mTxt').value = txt;
   document.getElementById('modal').className = 'mov on';
   document.getElementById('cpOk').style.display = 'none';
@@ -821,6 +986,63 @@ function cpTxt() {
   document.getElementById('cpOk').style.display = 'block';
 }
 
+
+// ── BFI-10 ─────────────────────────────────────────────────────
+// Rammstedt & John (2007) · Adaptação brasileira
+// Escala 1-5: 1=Discordo fortemente ... 5=Concordo fortemente
+// Itens reversos: 2(A-), 6(E-), 8(C-), 9(N-) → reverso = 6 - valor
+var BI = [
+  'Sou falante e extrovertido(a).',
+  'Costumo apontar os defeitos dos outros.',
+  'Faço as coisas com cuidado e atenção.',
+  'Fico triste ou deprimido(a) com facilidade.',
+  'Tenho novas ideias e sou original.',
+  'Prefiro ficar na minha e sou reservado(a).',
+  'Sou prestativo(a) e não sou egoísta.',
+  'Posso ser um pouco descuidado(a).',
+  'Sou relaxado(a) e lido bem com o estresse.',
+  'Sou curioso(a) sobre muitas coisas diferentes.'
+];
+var BS = ['1 · Discordo fortemente','2 · Discordo','3 · Neutro','4 · Concordo','5 · Concordo fortemente'];
+// Dimensões: [item+, item-] (índices 0-based)
+// Extroversão: 0(+), 5(-)
+// Amabilidade: 6(+), 1(-)
+// Conscienciosidade: 2(+), 7(-)
+// Neuroticismo: 3(+), 8(-)
+// Abertura: 4(+), 9(+)
+var BDIM = {
+  'Extroversão':      { pos:[0], neg:[5] },
+  'Amabilidade':      { pos:[6], neg:[1] },
+  'Conscienciosidade':{ pos:[2], neg:[7] },
+  'Neuroticismo':     { pos:[3], neg:[8] },
+  'Abertura':         { pos:[4,9], neg:[] }
+};
+
+function calcBFI() {
+  var scores = {};
+  for (var dim in BDIM) {
+    var d = BDIM[dim];
+    var sum = 0, count = 0;
+    d.pos.forEach(function(i){ sum += R.b['b_'+i]; count++; });
+    d.neg.forEach(function(i){ sum += (6 - R.b['b_'+i]); count++; });
+    scores[dim] = Math.round((sum/count)*10)/10;
+  }
+  return scores;
+}
+
+function finalizarB() {
+  for (var i = 0; i < BI.length; i++) {
+    if (R.b['b_'+i] === undefined) {
+      document.getElementById('e7').style.display = 'block';
+      var el = document.getElementById('q-b-'+i);
+      if (el) el.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+  }
+  document.getElementById('e7').style.display = 'none';
+  calcR();
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 document.getElementById('fD').value = new Date().toISOString().split('T')[0];
 mkQ('wP', PI, PS, 'p');
@@ -828,6 +1050,7 @@ mkQ('wG', GI, GS, 'g');
 mkQ('wC', CI, CS, 'c');
 mkQ('wD', DI, DS, 'd');
 mkE();
+mkQ('wB', BI, BS, 'b');
 </script>
 </body>
 </html>
