@@ -142,7 +142,10 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 .btn-wpp { background: #25D366; color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: .9rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
 .btn-cp { background: #1a2e4a; color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: .9rem; font-weight: bold; cursor: pointer; width: 100%; }
 .cpok { text-align: center; font-size: .8rem; font-weight: bold; color: #2e7d5b; padding: 6px; display: none; }
-</style>
+  .ana-box { background:#faf8f5; border-radius:11px; padding:18px; margin-bottom:14px; line-height:1.7; }
+  .ana-tit { font-weight:bold; font-size:.9rem; margin-bottom:10px; text-transform:uppercase; letter-spacing:.05em; }
+  .ana-txt { font-size:.85rem; color:#3a3530; line-height:1.8; }
+  </style>
 </head>
 <body>
 
@@ -191,7 +194,7 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
       <span>Importante:</span> Este é um mapeamento preventivo, não um diagnóstico. Suas respostas são confidenciais e serão utilizadas exclusivamente pela Dra. Lívia Melo para a sua devolutiva individual.
     </div>
     <button class="btn-iniciar" onclick="ir(1)">Iniciar Avaliação</button>
-    <p class="nota">⏱ Tempo estimado: 20 a 30 minutos · 5 instrumentos validados</p>
+    <p class="nota">⏱ Tempo estimado: 30 a 40 minutos · 6 instrumentos validados</p>
   </div>
 </div>
 
@@ -276,7 +279,132 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
   </div>
   <div id="wB"></div>
   <div class="erro" id="e7">Responda todas as questões para continuar.</div>
-  <div class="nav"><button class="btn btn-s" onclick="ir(6)">← Voltar</button><button class="btn btn-g" onclick="finalizarB()">Ver meu perfil →</button></div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(6)">← Voltar</button><button class="btn btn-g" onclick="ir(8)">Próximo →</button></div>
+</div>
+
+
+
+<!-- STEP 8: PERGUNTAS ABERTAS QUALITATIVAS EXPANDIDAS -->
+<div class="step" id="s8">
+  <div class="sth"><span class="badge">Aprofundamento</span><div class="sttl">Suas Histórias e Padrões</div><p class="ssub">16 perguntas para conhecer você além dos números.</p></div>
+  
+  <div style="background:#f5f3ef;border-radius:11px;padding:14px;margin-bottom:16px;font-size:.78rem;color:#1a2e4a;line-height:1.6">
+    Não há respostas certas. Sua sinceridade aqui é o que vai aprofundar a leitura dos testes anteriores e orientar o Plano de Ação.
+  </div>
+
+  <!-- EIXO A: VALORES, SIGNIFICADO E MEDO -->
+  <div style="border-left:4px solid #b8922a;padding-left:14px;margin-bottom:20px">
+    <div style="font-size:.7rem;font-weight:bold;text-transform:uppercase;letter-spacing:.1em;color:#b8922a;margin-bottom:12px">Eixo A: Valores, Significado e Medo</div>
+    
+    <div class="fg">
+      <label class="fl">1. Seus 3 valores fundamentais</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Se você pudesse escolher apenas 3 valores que guiam suas decisões (ex: independência, família, coragem, conhecimento, amizade, sucesso), quais seriam?</p>
+      <textarea id="q1" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">2. Seu objetivo inegociável no intercâmbio</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">O que fará todo o esforço valer a pena? Qual é seu objetivo principal que você NÃO abre mão?</p>
+      <textarea id="q2" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">3. Seu maior medo específico</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Qual é o seu maior medo ou preocupação específica sobre o intercâmbio? (Solidão? Conflito? Não acompanhar na escola? Homesickness?)</p>
+      <textarea id="q3" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">4. Experiência prévia longe de casa</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Você já ficou afastado(a) de casa por tempo prolongado (colônia, viagem, casa de parente)? Como foi essa experiência?</p>
+      <textarea id="q4" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">5. Qual expectativa assusta um pouco?</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Qual expectativa sobre o intercâmbio (suas ou de outras pessoas) te assusta ou te coloca sob pressão?</p>
+      <textarea id="q5" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+  </div>
+
+  <!-- EIXO B: ENFRENTAMENTO, SUPORTE E RESILIÊNCIA -->
+  <div style="border-left:4px solid #2e7d5b;padding-left:14px;margin-bottom:20px">
+    <div style="font-size:.7rem;font-weight:bold;text-transform:uppercase;letter-spacing:.1em;color:#2e7d5b;margin-bottom:12px">Eixo B: Enfrentamento, Suporte e Resiliência</div>
+    
+    <div class="fg">
+      <label class="fl">6. Uma situação difícil que você superou</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Pense em uma situação difícil ou desconfortável nos últimos 2 anos. O que você fez para superar ou tolerar?</p>
+      <textarea id="q6" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">7. Sua estratégia para recuperar equilíbrio</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Quando você está muito irritado(a), triste ou estressado(a), qual é sua estratégia RÁPIDA e saudável para se recuperar?</p>
+      <textarea id="q7" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">8. Sua rede de apoio principal</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Quem é sua rede de apoio quando você está em dificuldade? (Mãe, pai, amigo específico, psicólogo, grupo?)</p>
+      <textarea id="q8" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">9. Como você reage quando falha</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Quando você falha em algo ou comete um erro, qual é sua reação? (Se culpa? Aprende? Fica irritado? Desiste?)</p>
+      <textarea id="q9" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">10. Seu padrão de humor/energia</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Seu humor e energia variam muito ao longo do mês, ou você é mais estável? Como isso se manifesta?</p>
+      <textarea id="q10" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+  </div>
+
+  <!-- EIXO C: CONVIVÊNCIA, COMUNICAÇÃO E AUTONOMIA -->
+  <div style="border-left:4px solid #c17b2a;padding-left:14px;margin-bottom:20px">
+    <div style="font-size:.7rem;font-weight:bold;text-transform:uppercase;letter-spacing:.1em;color:#c17b2a;margin-bottom:12px">Eixo C: Convivência, Comunicação e Autonomia</div>
+    
+    <div class="fg">
+      <label class="fl">11. Dependência do celular como refúgio (0-10)</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Em uma escala de 0 a 10, o quanto seu celular funciona como refúgio quando está em ambiente desconfortável?</p>
+      <input type="number" id="q11" class="fi" min="0" max="10" placeholder="0 a 10">
+    </div>
+
+    <div class="fg">
+      <label class="fl">12. Regra de convivência mais difícil</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Qual regra de convivência doméstica (da sua casa) é mais difícil de abrir mão? (Privacidade? Horários? Responsabilidades?)</p>
+      <textarea id="q12" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">13. Como você comunica sentimentos negativos</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Quando está triste, com raiva ou frustrado, como você costuma comunicar? (Conversa? Fica quieto(a)? Chora? Isola?)</p>
+      <textarea id="q13" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">14. Como você reage a discordâncias</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Quando alguém discorda de você ou questiona seu ponto de vista, como você reage? (Escuta? Defende? Evita discussão?)</p>
+      <textarea id="q14" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">15. Sua necessidade de espaço/privacidade</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Qual é sua necessidade de espaço ou privacidade? Quanto tempo sozinho(a) você precisa para recarregar?</p>
+      <textarea id="q15" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label class="fl">16. Um hábito/rotina que você quer manter</label>
+      <p style="font-size:.75rem;color:#5a5349;margin-bottom:6px">Qual hábito, hobby ou rotina é tão importante para você que você quer muito manter mesmo longe de casa?</p>
+      <textarea id="q16" class="fi" style="height:70px;padding:10px;font-family:inherit;resize:none" placeholder="Escreva aqui..."></textarea>
+    </div>
+  </div>
+
+  <div class="erro" id="e8">Responda todas as 16 perguntas para continuar.</div>
+  <div class="nav"><button class="btn btn-s" onclick="ir(7)">← Voltar</button><button class="btn btn-g" onclick="validarQ8()">Ver resultado completo →</button></div>
 </div>
 
 <!-- RESULTS -->
@@ -306,8 +434,8 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 <script>
 // ── STATE ──────────────────────────────────────────────────────
 var U = {};
-var R = { p:{}, g:{}, c:{}, d:{}, e:{}, b:{} };
-var LBLS = ['Início','Identificação','Estresse (PSS-10)','Ansiedade (GAD-7)','Enfrentamento (COPE)','Resiliência (CD-RISC)','Regulação (ERQ)','Personalidade (BFI-10)','Resultados'];
+var R = { p:{}, g:{}, c:{}, d:{}, e:{}, b:{}, q:{} };
+var LBLS = ['Início','Identificação','Estresse (PSS-10)','Ansiedade (GAD-7)','Enfrentamento (COPE)','Resiliência (CD-RISC)','Regulação (ERQ)','Personalidade (BFI-10)','Perguntas Abertas','Resultados'];
 
 // ── PSS-10 ─────────────────────────────────────────────────────
 // Versão validada: Luft et al. (2007), Rev. Saúde Pública
@@ -446,10 +574,10 @@ function ir(n) {
   var id = (n === 'R') ? 'sR' : 's' + n;
   var el = document.getElementById(id);
   if (el) el.className = 'step on';
-  var pct = (n === 'R') ? 100 : Math.round(parseInt(n) / 8 * 100);
+  var pct = (n === 'R') ? 100 : Math.round(parseInt(n) / 9 * 100);
   document.getElementById('pBar').style.width = pct + '%';
   document.getElementById('pPct').textContent = pct + '%';
-  var li = (n === 'R') ? 8 : parseInt(n);
+  var li = (n === 'R') ? 9 : parseInt(n);
   document.getElementById('pLbl').textContent = LBLS[li] || '';
   window.scrollTo(0, 0);
 }
@@ -624,6 +752,7 @@ function calcERQ() {
 function calcR() {
   var pss = calcPSS(), gad = calcGAD(), cope = calcCOPE(), cdr = calcCDR(), erq = calcERQ(), bfi = calcBFI();
   window._sc = { pss:pss, gad:gad, cope:cope, cdr:cdr, erq:erq, bfi:bfi };
+  var analises = criarAnaliseCruzada(pss, gad, cope, cdr, erq, bfi, R.q);
 
   var nb = new Date(U.nasc + 'T12:00:00');
   var idade = new Date().getFullYear() - nb.getFullYear();
@@ -938,6 +1067,29 @@ function calcR() {
   h += '</div>';
 
   // Envio
+    // ── ANÁLISES CRUZADAS (QUANTITATIVO + QUALITATIVO) ────────
+  h += '<div class="rsec"><div class="rstl">Leitura Integrada · Escalas + Histórias</div>';
+  
+  // EIXO A
+  h += '<div class="ana-box" style="border-left:5px solid #b8922a">';
+  h += '<div class="ana-tit" style="color:#b8922a">Eixo A: Seus Valores e o Manejo da Ansiedade</div>';
+  h += '<p class="ana-txt">' + analises.eixoA + '</p>';
+  h += '</div>';
+  
+  // EIXO B
+  h += '<div class="ana-box" style="border-left:5px solid #2e7d5b">';
+  h += '<div class="ana-tit" style="color:#2e7d5b">Eixo B: Sua Resiliência e Estratégias de Enfrentamento</div>';
+  h += '<p class="ana-txt">' + analises.eixoB + '</p>';
+  h += '</div>';
+  
+  // EIXO C
+  h += '<div class="ana-box" style="border-left:5px solid #c17b2a">';
+  h += '<div class="ana-tit" style="color:#c17b2a">Eixo C: Sua Personalidade e Convivência Familiar</div>';
+  h += '<p class="ana-txt">' + analises.eixoC + '</p>';
+  h += '</div>';
+  
+  h += '</div>';
+
   h += '<div class="sbox"><div class="sbox-t">Enviar para Dra. Lívia Melo</div>';
   h += '<p class="sbox-s">Compartilhe seus resultados para receber sua devolutiva personalizada.</p>';
   h += '<div class="sbtns"><button class="btn btn-g" onclick="abrirM()">Enviar Resultados</button>';
@@ -968,7 +1120,32 @@ function abrirM() {
     + 'Disfuncional: ' + sc.cope.st['Disfuncional'].pct + '%\n\n'
     + 'SUBESCALAS COPE\n' + subs
     + '\nPERSONALIDADE (BFI-10)\n'
-    + Object.keys(sc.bfi).map(function(d){ return d + ': ' + sc.bfi[d].toFixed(1) + '/5'; }).join('\n');
+    + Object.keys(sc.bfi).map(function(d){ return d + ': ' + sc.bfi[d].toFixed(1) + '/5'; }).join('\n')
+    + '\n\n═══════════════════════════════════════'
+    + '\nRESPOSTAS QUALITATIVAS (16 PERGUNTAS)'
+    + '\n═══════════════════════════════════════'
+    + '\n[EIXO A: VALORES, SIGNIFICADO E MEDO]'
+    + '\n1. Valores: ' + R.q.valores
+    + '\n2. Objetivo: ' + R.q.objetivo
+    + '\n3. Medo: ' + R.q.medo
+    + '\n4. Experiência prévia: ' + R.q.experienciaPrevia
+    + '\n5. Expectativa assusta: ' + R.q.expectativaAssusta
+    + '\n\n[EIXO B: ENFRENTAMENTO E RESILIÊNCIA]'
+    + '\n6. Dificuldade superada: ' + R.q.dificuldadeSuperada
+    + '\n7. Estratégia: ' + R.q.estrategia
+    + '\n8. Rede de apoio: ' + R.q.redeApoio
+    + '\n9. Reação a falhas: ' + R.q.reacaoFalha
+    + '\n10. Padrão de humor: ' + R.q.padraoHumor
+    + '\n\n[EIXO C: CONVIVÊNCIA E COMUNICAÇÃO]'
+    + '\n11. Dependência tela: ' + R.q.telaDependencia + '/10'
+    + '\n12. Regra difícil: ' + R.q.regraDificil
+    + '\n13. Comunicação sentimentos: ' + R.q.comunicacaoSentimentos
+    + '\n14. Reação discordância: ' + R.q.reacaoDiscordancia
+    + '\n15. Necessidade espaço: ' + R.q.necessidadeEspaco
+    + '\n16. Hábito importante: ' + R.q.habitoImportante
+    + '\n\n═══════════════════════════════════════'
+    + '\n[Análises clínicas cruzadas no resultado]'
+    + '\n═══════════════════════════════════════';
   document.getElementById('mTxt').value = txt;
   document.getElementById('modal').className = 'mov on';
   document.getElementById('cpOk').style.display = 'none';
@@ -1042,6 +1219,142 @@ function finalizarB() {
   document.getElementById('e7').style.display = 'none';
   calcR();
 }
+
+
+function validarQ8() {
+  var vals = [];
+  for (var i = 1; i <= 16; i++) {
+    var el = document.getElementById('q' + i);
+    if (el) {
+      var v = (el.type === 'number') ? el.value : el.value.trim().length;
+      vals.push({ i: i, val: v, type: el.type });
+    }
+  }
+  
+  // Validate: text >= 3 chars, number between 0-10
+  for (var j = 0; j < vals.length; j++) {
+    var item = vals[j];
+    if (item.type === 'number') {
+      var num = parseInt(document.getElementById('q' + item.i).value);
+      if (isNaN(num) || num < 0 || num > 10) {
+        document.getElementById('e8').style.display = 'block';
+        window.scrollTo(0, 0);
+        return;
+      }
+    } else {
+      if (item.val < 3) {
+        document.getElementById('e8').style.display = 'block';
+        window.scrollTo(0, 0);
+        return;
+      }
+    }
+  }
+  
+  R.q = {
+    valores: document.getElementById('q1').value.trim(),
+    objetivo: document.getElementById('q2').value.trim(),
+    medo: document.getElementById('q3').value.trim(),
+    experienciaPrevia: document.getElementById('q4').value.trim(),
+    expectativaAssusta: document.getElementById('q5').value.trim(),
+    dificuldadeSuperada: document.getElementById('q6').value.trim(),
+    estrategia: document.getElementById('q7').value.trim(),
+    redeApoio: document.getElementById('q8').value.trim(),
+    reacaoFalha: document.getElementById('q9').value.trim(),
+    padraoHumor: document.getElementById('q10').value.trim(),
+    telaDependencia: parseInt(document.getElementById('q11').value),
+    regraDificil: document.getElementById('q12').value.trim(),
+    comunicacaoSentimentos: document.getElementById('q13').value.trim(),
+    reacaoDiscordancia: document.getElementById('q14').value.trim(),
+    necessidadeEspaco: document.getElementById('q15').value.trim(),
+    habitoImportante: document.getElementById('q16').value.trim()
+  };
+  
+  document.getElementById('e8').style.display = 'none';
+  calcR();
+}
+
+
+// ── ANÁLISE CLÍNICA INTEGRADA (QUANTITATIVO + QUALITATIVO) ─────
+
+
+// ── ANÁLISE CLÍNICA INTEGRADA (QUANTITATIVO + QUALITATIVO) ─────
+
+
+// ── ANÁLISE CLÍNICA INTEGRADA (QUANTITATIVO + 16 QUESTÕES QUALITATIVAS) ─
+
+function criarAnaliseCruzada(pss, gad, cope, cdr, erq, bfi, q) {
+  var gadAlto = gad.lbl === 'Grave' || gad.lbl === 'Moderada';
+  var pssAlto = pss.lbl === 'Elevado' || pss.lbl === 'Moderado';
+  var resilenciaAlta = cdr.pct >= 65;
+  var resilenciaBaixa = cdr.pct < 50;
+  var introvertido = bfi['Extroversão'] < 2.5;
+  var extrovertido = bfi['Extroversão'] >= 3.5;
+  var supressor = erq.sp.v > erq.rp.v + 0.5;
+  var amavel = bfi['Amabilidade'] >= 3.5;
+  var altaDependenciaTela = q.telaDependencia >= 7;
+  var comunica = q.comunicacaoSentimentos.toLowerCase().includes('conversa') || q.comunicacaoSentimentos.toLowerCase().includes('fala');
+  var temRedeApoio = q.redeApoio.length > 5;
+  var temMedoClaro = q.medo.length > 10;
+  var temHabito = q.habitoImportante.length > 5;
+  
+  // ── EIXO A: VALORES + MEDO + ANSIEDADE ──────────────────
+  var analiseA = '';
+  
+  if (gadAlto && temMedoClaro && q.medo.toLowerCase().includes('solidão')) {
+    analiseA = 'Você relatou ansiedade/estresse elevados especificamente ligados ao medo de solidão. MAS você tem valores claros e sabe seu objetivo no intercâmbio. A chave é usar seu círculo de valores (família, amizade, conhecimento) como ponte contra o isolamento. Nos primeiros 21 dias, seu desafio será AGIR apesar do medo — fazer contato mesmo sentindo-se fora do lugar. Isso passa.';
+  } else if (gadAlto && !temMedoClaro) {
+    analiseA = 'Sua ansiedade está elevada, mas você não identifica claramente qual é o medo. Isso significa que pode estar vivendo uma ansiedade GENERALIZADA, não ligada a algo específico. No Plano de Ação, trabalharemos em nomear e localizar esse medo — é impossível enfrentar o que não tem nome.';
+  } else if (pssAlto && q.experienciaPrevia.length > 20 && q.experienciaPrevia.toLowerCase().includes('bem')) {
+    analiseA = 'Seu estresse está elevado, mas você já viveu experiências longe de casa QUE FORAM BEM. Isso é crucial: você não está indo para o desconhecido total. Você conhece seu próprio padrão de adaptação. Confia nele. O estresse que você sente agora é antecipatório, não baseado em evidência.';
+  } else if (temMedoClaro && q.expectativaAssusta.length > 15) {
+    analiseA = 'Você tem tanto um medo específico quanto uma expectativa que te assusta. Isso aponta para PRESSÃO interna significativa. Há uma desconexão entre o que você quer (seu objetivo) e o que sente que PRECISA fazer (expectativa externa). O Plano focará em alinhar essas duas coisas.';
+  } else if (gadAlto) {
+    analiseA = 'Sua ansiedade é moderada a alta. Você será beneficiado(a) de um plano estruturado com check-ins regulares para validar que seu medo, embora real, não está sendo confirmado pela realidade. A ansiedade tende a diminuir com a exposição gradual.';
+  } else {
+    analiseA = 'Você tem baixa ansiedade e valores claros. Isso é um forte indicador de que você entrará na experiência com boa ancoragem emocional. Mantenha contato com seus valores quando tiver momentos difíceis.';
+  }
+  
+  // ── EIXO B: ENFRENTAMENTO + RESILIÊNCIA + APOIO ────────
+  var analiseB = '';
+  
+  if (resilenciaBaixa && q.dificuldadeSuperada.length > 30 && q.estrategia.length > 20) {
+    analiseB = 'Seu CD-RISC está baixo, MAS suas narrativas de enfrentamento (como você superou dificuldades + estratégias que usa) são MUITO CONCRETAS e ativas. Isso indica que você TEM recursos que o teste não capturou. Você é mais resiliente na prática que na auto-percepção. Use essas estratégias já testadas no intercâmbio.';
+  } else if (resilenciaAlta && temRedeApoio) {
+    analiseB = 'Você tem resiliência elevada E uma rede de apoio clara. Essa é a combinação perfeita: você se recupera bem DE FORMA AUTÔNOMA e tem pessoas para contar em emergências. No intercâmbio, mantenha contato com sua rede mesmo em dias bons.';
+  } else if (resilenciaBaixa && !temRedeApoio) {
+    analiseB = 'Sua resiliência está em desenvolvimento E você não identifica claramente uma rede de apoio. Isso é importante trabalhar: parte da construção de resiliência passa por identificar e USAR apoio. No Plano, você criará um protocolo de pessoas que PODE contar (não só em crises, mas regularmente).';
+  } else if (q.reacaoFalha.toLowerCase().includes('culpa') || q.reacaoFalha.toLowerCase().includes('critica')) {
+    analiseB = 'Quando você falha, você tende à auto-culpa ou auto-crítica severa. Isso pode minar sua resiliência no intercâmbio: você vai enfrentar desafios (acadêmicos, sociais, culturais), vai falhar às vezes, e será tentado a desistir se estiver muito crítico consigo. O Plano incluirá AUTOCOMPAIXÃO: cometer erros é parte de aprender em nova cultura.';
+  } else if (q.padraoHumor.toLowerCase().includes('varia')) {
+    analiseB = 'Seu humor varia bastante ao longo do mês. Isso significa que no intercâmbio você vivenciará OSCILAÇÕES. Nos dias de baixa energia, pode questionar a experiência toda. Nos dias de alta energia, tudo fará sentido. É normal. O Plano incluirá uma estrutura que te segura nos dias ruins.';
+  } else {
+    analiseB = 'Você tem padrões de enfrentamento funcionais e alguma estabilidade de humor. Isso é um recurso. Use-o como referência quando estiver em dificuldade.';
+  }
+  
+  // ── EIXO C: PERSONALIDADE + CONVIVÊNCIA + COMUNICAÇÃO ──
+  var analiseC = '';
+  
+  if (supressor && altaDependenciaTela && !comunica) {
+    analiseC = 'PADRÃO DE RISCO MODERADO-ALTO: Você suprime emoções (ERQ) + usa muito celular como refúgio + tende a NÃO comunicar sentimentos claramente. No intercâmbio, isso cria um ciclo perigoso: incômodo → escape para tela → isolamento → pioramento. A host family percebe o afastamento mas não sabe por quê. O Plano de Ação será AGRESSIVO em comunicação: você vai praticar dizer "Estou sentindo X" mesmo que incômodo. Primeiras 3 semanas são críticas.';
+  } else if (introvertido && altaDependenciaTela && !q.necessidadeEspaco.toLowerCase().includes('hora') && !q.necessidadeEspaco.toLowerCase().includes('tempo')) {
+    analiseC = 'Você é introvertido(a) com alta dependência de tela, MAS não nomeia claramente sua necessidade de espaço. Isso significa que você pode não conseguir NEGOCIAR privacidade com a host family porque não sabe dizer o quê. O Plano incluirá: "Preciso de 1 hora sozinho(a) para recarregar" como frase-chave.';
+  } else if (comunica && temHabito) {
+    analiseC = 'Você comunica seus sentimentos E tem um hábito que é importante para você. Essa combinação significa que você provavelmente vai PEDIR à host family para apoiar seu hábito (tempo para música, esporte, criatividade). Isso facilita muito a convivência — é um pedido legítimo e concreto em vez de um sentimento vago.';
+  } else if (q.reacaoDiscordancia.toLowerCase().includes('evita') || q.reacaoDiscordancia.toLowerCase().includes('fica quieto')) {
+    analiseC = 'Quando discordam de você, você tende a evitar ou ficar quieto. No intercâmbio, isso pode gerar mal-entendidos: a host family pode achar que você concorda quando na verdade não. E você pode acumular ressentimento. O Plano focará em "discordância respeitosa": você pode não concordar E ainda ser amável. Essa é uma habilidade.';
+  } else if (amavel && extrovertido && !altaDependenciaTela) {
+    analiseC = 'Você é sociável, amável e não depende muito de tela. Isso é IDEAL para convivência. Você vai se integrar naturalmente. Cuidado apenas em não dizer "sim" para tudo por ser agradável — está bem recusar convites e ter tempo sozinho.';
+  } else if (altaDependenciaTela) {
+    analiseC = 'Você tem dependência moderada-alta de tela. No intercâmbio, reduzir isso gradualmente vai ser importante tanto para imersão cultural quanto para evitar isolamento. O Plano incluirá um plano de redução (tipo: sem celular na sala de estar, sem telefone após 22h).';
+  } else {
+    analiseC = 'Seus padrões de convivência sugerem flexibilidade razoável. Use comunicação clara quando algo não funcionar com a host family — isso resolve 90% dos conflitos.';
+  }
+  
+  return { eixoA: analiseA, eixoB: analiseB, eixoC: analiseC };
+}
+
+
+
 
 // ── INIT ──────────────────────────────────────────────────────
 document.getElementById('fD').value = new Date().toISOString().split('T')[0];
