@@ -2,7 +2,97 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  // ── CONFIGURAÇÕES ──────────────────────────────────────────
+  const SENHA_ADMIN = "livia2505";  // Senha para painel admin
+  
+  // ── SALVAR DADOS EM LOCALSTORAGE ───────────────────────────
+  function salvarDados(dados) {
+    var todos = JSON.parse(localStorage.getItem('checkin_todos') || '[]');
+    todos.push(dados);
+    localStorage.setItem('checkin_todos', JSON.stringify(todos));
+  }
+  
+  function carregarDados() {
+    return JSON.parse(localStorage.getItem('checkin_todos') || '[]');
+  }
+  
+  // ── ACESSAR PAINEL ADMIN ───────────────────────────────────
+  function abrirAdmin() {
+    var senha = prompt('Senha do painel admin:');
+    if (senha === SENHA_ADMIN) {
+      window.open('?admin=' + SENHA_ADMIN, '_blank');
+    } else {
+      alert('Senha incorreta');
+    }
+  }
+  
+  // ── PAINEL ADMIN ───────────────────────────────────────────
+  function carregarPainelAdmin() {
+    if (new URLSearchParams(window.location.search).get('admin') !== SENHA_ADMIN) return;
+    
+    var todos = carregarDados();
+    var html = '<div style="padding:20px;font-family:Arial;background:#faf8f4;">'
+      + '<h1>Painel Admin - Check-In Emocional</h1>'
+      + '<p>' + todos.length + ' check-ins registrados</p>'
+      + '<button onclick="exportarCSV()">Exportar CSV</button>'
+      + '<button onclick="exportarJSON()">Exportar JSON</button>'
+      + '<button onclick="limparDados()">Limpar Dados</button>'
+      + '<div style="margin-top:20px;background:#fff;padding:15px;border-radius:10px;">'
+      + '<table style="width:100%;border-collapse:collapse;">'
+      + '<tr style="background:#1a2e4a;color:#fff;">'
+      + '<th style="padding:8px;text-align:left;">Nome</th>'
+      + '<th style="padding:8px;text-align:left;">Email</th>'
+      + '<th style="padding:8px;text-align:left;">Estresse</th>'
+      + '<th style="padding:8px;text-align:left;">Ansiedade</th>'
+      + '</tr>';
+    
+    todos.forEach(function(d, i) {
+      html += '<tr style="border-bottom:1px solid #eee;">'
+        + '<td style="padding:8px;">' + d.nome + '</td>'
+        + '<td style="padding:8px;">' + d.email + '</td>'
+        + '<td style="padding:8px;">' + d.pss.lbl + '</td>'
+        + '<td style="padding:8px;">' + d.gad.lbl + '</td>'
+        + '</tr>';
+    });
+    
+    html += '</table></div></div>';
+    document.body.innerHTML = html;
+  }
+  
+  function exportarCSV() {
+    var todos = carregarDados();
+    var csv = 'Nome,Email,Estresse,Ansiedade,Resiliência,Padrões\n';
+    todos.forEach(function(d) {
+      var padroes = (d.padroes || []).map(p => p.titulo).join(' | ');
+      csv += '"' + d.nome + '","' + d.email + '","' + d.pss.lbl + '","' + d.gad.lbl + '","' + d.cdr.lbl + '","' + padroes + '"\n';
+    });
+    var blob = new Blob([csv], {type:'text/csv'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'checkin-dados.csv';
+    a.click();
+  }
+  
+  function exportarJSON() {
+    var todos = carregarDados();
+    var json = JSON.stringify(todos, null, 2);
+    var blob = new Blob([json], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'checkin-dados.json';
+    a.click();
+  }
+  
+  function limparDados() {
+    if (confirm('Tem certeza? Essa ação não pode ser desfeita.')) {
+      localStorage.removeItem('checkin_todos');
+      alert('Dados removidos');
+      location.reload();
+    }
+  }
+</script>
 <title>Check-In Emocional | Livia Melo</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -202,10 +292,11 @@ body { font-family: Arial, sans-serif; background: #faf8f4; color: #1a2e4a; }
 <div class="step" id="s1">
   <div class="sth"><span class="badge">Etapa 1 de 7</span><div class="sttl">Identificação</div><p class="ssub">Preencha seus dados antes de iniciar.</p></div>
   <div class="fg"><label class="fl">Nome completo</label><input class="fi" type="text" id="fN" placeholder="Seu nome completo" autocomplete="name"></div>
+  <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="fE" placeholder="seu.email@gmail.com" autocomplete="email" required></div>
   <div class="fg"><label class="fl">Data de nascimento</label><input class="fi" type="date" id="fB"></div>
   <div class="fg"><label class="fl">Data da avaliação</label><input class="fi" type="date" id="fD"></div>
   <div class="fg"><label class="fl">Destino do intercâmbio <span class="fl-opt">(opcional)</span></label><input class="fi" type="text" id="fDest" placeholder="Ex: Estados Unidos, Canadá, Irlanda..."></div>
-  <div class="erro" id="e1">Preencha nome, data de nascimento e data da avaliação.</div>
+  <div class="erro" id="e1">Preencha nome, email, data de nascimento e data da avaliação.</div>
   <div class="nav"><button class="btn btn-p" onclick="s1()">Próximo →</button></div>
 </div>
 
@@ -654,10 +745,11 @@ function selE(i, v) {
 // ── VALIDAÇÃO E NAVEGAÇÃO ─────────────────────────────────────
 function s1() {
   var nm = document.getElementById('fN').value.trim();
+  var em = document.getElementById('fE').value.trim();
   var nb = document.getElementById('fB').value;
   var nd = document.getElementById('fD').value;
-  if (!nm || !nb || !nd) { document.getElementById('e1').style.display = 'block'; return; }
-  U = { nome: nm, nasc: nb, data: nd, dest: document.getElementById('fDest').value.trim() };
+  if (!nm || !em || !nb || !nd) { document.getElementById('e1').style.display = 'block'; return; }
+  U = { nome: nm, email: em, nasc: nb, data: nd, dest: document.getElementById('fDest').value.trim() };
   document.getElementById('e1').style.display = 'none';
   ir(2);
 }
@@ -748,11 +840,114 @@ function calcERQ() {
   };
 }
 
+// ── GERAR PADRÕES CURIOSOS (GATILHO DE CURIOSIDADE) ─────────────
+function gerarPadroesCuriosos(pss, gad, cope, cdr, erq, bfi, q) {
+  var padroes = [];
+  
+  // PADRÃO 1 — DISCREPÂNCIA
+  if (gad.lbl === 'Grave' || gad.lbl === 'Moderada') {
+    var medoClaro = q.medo.length > 15;
+    if (!medoClaro) {
+      padroes.push({
+        tipo: 'DISCREPÂNCIA',
+        titulo: 'Ansiedade + Incerteza',
+        descricao: 'Você sente preocupação, mas não identifica claramente o medo específico.',
+        pergunta: 'Qual é a origem exata do seu medo?',
+        conexao: 'No intercâmbio, nomear o medo é metade da solução.',
+        validacao: false
+      });
+    }
+  }
+  
+  if (cdr.pct < 50 && q.dificuldadeSuperada.length > 20) {
+    padroes.push({
+      tipo: 'DISCREPÂNCIA',
+      titulo: 'Resiliente Sem Saber',
+      descricao: 'Você superou dificuldades reais, mas acha que não é resiliente.',
+      pergunta: 'Por que você subestima seus próprios recursos?',
+      conexao: 'Vamos recuperar confiança nos seus recursos.',
+      validacao: false
+    });
+  }
+  
+  // PADRÃO 2 — RISCO MODERADO
+  if (erq.sp.v > erq.rp.v + 0.5 && q.telaDependencia >= 7 && !q.comunicacaoSentimentos.toLowerCase().includes('conversa')) {
+    padroes.push({
+      tipo: 'RISCO',
+      titulo: 'Ciclo de Isolamento',
+      descricao: 'Você guarda emoções + usa tela como refúgio + não comunica sentimentos.',
+      alerta: 'No intercâmbio, isso pode criar: incômodo → escape → isolamento → pioramento.',
+      conexao: 'Seu Plano de Ação inclui protocolo de comunicação agressiva.',
+      validacao: false
+    });
+  }
+  
+  if (bfi['Extroversão'] < 2.5 && q.telaDependencia >= 7 && !q.necessidadeEspaco.toLowerCase().includes('hora')) {
+    padroes.push({
+      tipo: 'RISCO',
+      titulo: 'Espaço Não Nomeado',
+      descricao: 'Você precisa de espaço para recarregar (introvertido), mas não sabe pedir.',
+      alerta: 'Host family não saberá respeitar sua necessidade de privacidade.',
+      conexao: 'Vamos criar frase-chave: "Preciso de [X] hora(s) sozinho(a)"',
+      validacao: false
+    });
+  }
+  
+  // PADRÃO 3 — RECURSO INTERESSANTE (VALIDAÇÃO)
+  if (cdr.pct >= 65) {
+    padroes.push({
+      tipo: 'RECURSO',
+      titulo: 'Resiliência Forte',
+      descricao: 'Você se recupera bem de dificuldades — isso é vantagem enorme.',
+      pergunta: 'Como você desenvolveu essa capacidade?',
+      conexao: 'Vamos usar sua resiliência estrategicamente no intercâmbio.',
+      validacao: true
+    });
+  }
+  
+  if (bfi['Extroversão'] >= 3.5 && bfi['Amabilidade'] >= 3.5 && q.telaDependencia <= 4) {
+    padroes.push({
+      tipo: 'RECURSO',
+      titulo: 'Sociabilidade Natural',
+      descricao: 'Você é sociável e amável — vai se integrar facilmente.',
+      pergunta: 'Como não deixar sua disponibilidade virar "palhaço"?',
+      conexao: 'Estar disponível é ótimo. Dizer "não" também é importante.',
+      validacao: true
+    });
+  }
+  
+  if (bfi['Abertura'] >= 4) {
+    padroes.push({
+      tipo: 'RECURSO',
+      titulo: 'Curiosidade e Aprendizado',
+      descricao: 'Você adora aprender e experimentar — perfeito para imersão cultural.',
+      pergunta: 'Como aproveitar ao máximo a experiência nova?',
+      conexao: 'Seu Plano inclui "Mapa de Descobertas" personalizado.',
+      validacao: true
+    });
+  }
+  
+  // Se não há padrões específicos, gera um genérico
+  if (padroes.length === 0) {
+    padroes.push({
+      tipo: 'INSIGHT',
+      titulo: 'Seu Perfil Emocional',
+      descricao: 'Você tem um padrão emocional único que merece análise profunda.',
+      pergunta: 'Qual é a melhor forma de preparar você para o intercâmbio?',
+      conexao: 'Resposta: seu Plano de Ação personalizado.',
+      validacao: false
+    });
+  }
+  
+  return padroes.slice(0, 3); // Máximo 3 padrões
+}
+
 // ── CONSTRUIR RESULTADO ───────────────────────────────────────
 function calcR() {
   var pss = calcPSS(), gad = calcGAD(), cope = calcCOPE(), cdr = calcCDR(), erq = calcERQ(), bfi = calcBFI();
-  window._sc = { pss:pss, gad:gad, cope:cope, cdr:cdr, erq:erq, bfi:bfi };
   var analises = criarAnaliseCruzada(pss, gad, cope, cdr, erq, bfi, R.q);
+  var padroesCuriosos = gerarPadroesCuriosos(pss, gad, cope, cdr, erq, bfi, R.q);
+  window._sc = { pss:pss, gad:gad, cope:cope, cdr:cdr, erq:erq, bfi:bfi, analises:analises, padroes:padroesCuriosos };
 
   var nb = new Date(U.nasc + 'T12:00:00');
   var idade = new Date().getFullYear() - nb.getFullYear();
@@ -1104,51 +1299,221 @@ function abrirM() {
   var sc = window._sc;
   var subs = '';
   for (var nm in sc.cope.ss) subs += nm + ': ' + sc.cope.ss[nm] + '\n';
-  var txt = 'CHECK-IN EMOCIONAL — INTERCÂMBIO\n'
-    + '=====================================\n'
+  
+  // ── VERSÃO A: DADOS COMPLETOS (você recebe) ──────────────
+  var txtCompleto = 'CHECK-IN EMOCIONAL — INTERCÂMBIO [DADOS COMPLETOS]\n'
+    + '═════════════════════════════════════════════════════════\n'
     + 'Nome: ' + U.nome + '\n'
     + (U.dest ? 'Destino: ' + U.dest + '\n' : '')
     + 'Nascimento: ' + U.nasc + ' | Avaliação: ' + U.data + '\n\n'
-    + 'PONTUAÇÕES\n'
-    + 'Estresse PSS-10: ' + sc.pss.t + '/40 — ' + sc.pss.lbl + '\n'
-    + 'Ansiedade GAD-7: ' + sc.gad.t + '/21 — ' + sc.gad.lbl + '\n'
-    + 'Resiliência CD-RISC-10: ' + sc.cdr.t + '/40 — ' + sc.cdr.lbl + '\n'
-    + 'ERQ Reavaliação: ' + sc.erq.rp.v + '/7 | Supressão: ' + sc.erq.sp.v + '/7\n\n'
-    + 'ESTILOS DE ENFRENTAMENTO (Brief COPE)\n'
-    + 'Focado no Problema: ' + sc.cope.st['Problema'].pct + '%\n'
-    + 'Focado na Emoção: ' + sc.cope.st['Emocao'].pct + '%\n'
-    + 'Disfuncional: ' + sc.cope.st['Disfuncional'].pct + '%\n\n'
-    + 'SUBESCALAS COPE\n' + subs
-    + '\nPERSONALIDADE (BFI-10)\n'
+    + 'PONTUAÇÕES E INTERPRETAÇÕES\n'
+    + '═════════════════════════════════════════════════════════\n\n'
+    + 'ESTRESSE PERCEBIDO (PSS-10)\n'
+    + sc.pss.t + '/40 — ' + sc.pss.lbl + '\n'
+    + 'Significado: Você está sentindo uma pressão ' + sc.pss.lbl.toLowerCase() + ' neste momento.\n\n'
+    + 'ANSIEDADE GENERALIZADA (GAD-7)\n'
+    + sc.gad.t + '/21 — ' + sc.gad.lbl + '\n'
+    + 'Significado: Preocupações frequentes podem estar consumindo energia.\n\n'
+    + 'RESILIÊNCIA (CD-RISC-10)\n'
+    + sc.cdr.t + '/40 — ' + sc.cdr.lbl + '\n\n'
+    + 'REGULAÇÃO EMOCIONAL (ERQ)\n'
+    + 'Reavaliação: ' + sc.erq.rp.v + '/7 | Supressão: ' + sc.erq.sp.v + '/7\n\n'
+    + 'ESTILOS ENFRENTAMENTO (COPE)\n'
+    + 'Problema: ' + sc.cope.st['Problema'].pct + '% | Emoção: ' + sc.cope.st['Emocao'].pct + '% | Disfuncional: ' + sc.cope.st['Disfuncional'].pct + '%\n\n'
+    + 'PERSONALIDADE (BFI-10)\n'
     + Object.keys(sc.bfi).map(function(d){ return d + ': ' + sc.bfi[d].toFixed(1) + '/5'; }).join('\n')
-    + '\n\n═══════════════════════════════════════'
+    + '\n\n═════════════════════════════════════════════════════════'
     + '\nRESPOSTAS QUALITATIVAS (16 PERGUNTAS)'
-    + '\n═══════════════════════════════════════'
-    + '\n[EIXO A: VALORES, SIGNIFICADO E MEDO]'
-    + '\n1. Valores: ' + R.q.valores
+    + '\n═════════════════════════════════════════════════════════'
+    + '\n[EIXO A]\n1. Valores: ' + R.q.valores
     + '\n2. Objetivo: ' + R.q.objetivo
     + '\n3. Medo: ' + R.q.medo
-    + '\n4. Experiência prévia: ' + R.q.experienciaPrevia
-    + '\n5. Expectativa assusta: ' + R.q.expectativaAssusta
-    + '\n\n[EIXO B: ENFRENTAMENTO E RESILIÊNCIA]'
-    + '\n6. Dificuldade superada: ' + R.q.dificuldadeSuperada
+    + '\n4. Experiência: ' + R.q.experienciaPrevia
+    + '\n5. Expectativa: ' + R.q.expectativaAssusta
+    + '\n\n[EIXO B]\n6. Dificuldade: ' + R.q.dificuldadeSuperada
     + '\n7. Estratégia: ' + R.q.estrategia
-    + '\n8. Rede de apoio: ' + R.q.redeApoio
-    + '\n9. Reação a falhas: ' + R.q.reacaoFalha
-    + '\n10. Padrão de humor: ' + R.q.padraoHumor
-    + '\n\n[EIXO C: CONVIVÊNCIA E COMUNICAÇÃO]'
-    + '\n11. Dependência tela: ' + R.q.telaDependencia + '/10'
-    + '\n12. Regra difícil: ' + R.q.regraDificil
-    + '\n13. Comunicação sentimentos: ' + R.q.comunicacaoSentimentos
-    + '\n14. Reação discordância: ' + R.q.reacaoDiscordancia
-    + '\n15. Necessidade espaço: ' + R.q.necessidadeEspaco
-    + '\n16. Hábito importante: ' + R.q.habitoImportante
-    + '\n\n═══════════════════════════════════════'
-    + '\n[Análises clínicas cruzadas no resultado]'
-    + '\n═══════════════════════════════════════';
+    + '\n8. Apoio: ' + R.q.redeApoio
+    + '\n9. Falha: ' + R.q.reacaoFalha
+    + '\n10. Humor: ' + R.q.padraoHumor
+    + '\n\n[EIXO C]\n11. Tela: ' + R.q.telaDependencia + '/10'
+    + '\n12. Regra: ' + R.q.regraDificil
+    + '\n13. Comunicação: ' + R.q.comunicacaoSentimentos
+    + '\n14. Discordância: ' + R.q.reacaoDiscordancia
+    + '\n15. Espaço: ' + R.q.necessidadeEspaco
+    + '\n16. Hábito: ' + R.q.habitoImportante
+    + '\n\n═════════════════════════════════════════════════════════'
+    + '\nANÁLISES CLÍNICAS CRUZADAS'
+    + '\n═════════════════════════════════════════════════════════'
+    + '\nEIXO A: VALORES E MANEJO DA ANSIEDADE\n'
+    + sc.analises.eixoA
+    + '\n\nEIXO B: RESILIÊNCIA E ENFRENTAMENTO\n'
+    + sc.analises.eixoB
+    + '\n\nEIXO C: PERSONALIDADE E CONVIVÊNCIA\n'
+    + sc.analises.eixoC;
+  
+  // ── VERSÃO B: RESUMO PROVOCADOR (jovem recebe) ──────────────
+  var txtProv = 'Hey ' + U.nome + '! 👋\n\n'
+    + 'Seu resultado do Check-In está pronto!\n\n'
+    + '═══════════════════════════════════════\n'
+    + 'SEU PERFIL EMOCIONAL\n'
+    + '═══════════════════════════════════════\n\n'
+    + 'Você é alguém que ' + (sc.bfi['Extroversão'] >= 3 ? 'gosta de estar com pessoas' : 'precisa de espaço para recarregar')
+    + ', e está enfrentando uma grande mudança (intercâmbio para ' + U.dest + ').\n'
+    + 'Seu nível de estresse está ' + sc.pss.lbl.toLowerCase() + ' e sua ansiedade, ' + sc.gad.lbl.toLowerCase() + '.\n\n'
+    + '⚠️ DETECTAMOS 3 PADRÕES IMPORTANTES EM VOCÊ:\n\n';
+  
+  // Adicionar padrões curiosos
+  if (sc.padroes && sc.padroes.length > 0) {
+    for (var i = 0; i < sc.padroes.length; i++) {
+      var p = sc.padroes[i];
+      txtProv += '📌 PADRÃO ' + (i+1) + ': ' + p.titulo + '\n'
+        + p.descricao + '\n'
+        + (p.pergunta ? '❓ ' + p.pergunta + '\n' : '')
+        + (p.alerta ? '⚠️ ' + p.alerta + '\n' : '')
+        + '💡 ' + p.conexao + '\n\n';
+    }
+  }
+  
+  txtProv += '═══════════════════════════════════════\n'
+    + '✓ SEUS PONTOS FORTES\n'
+    + '═══════════════════════════════════════\n\n'
+    + (sc.bfi['Extroversão'] >= 3 ? '• Você é sociável e se integra facilmente\n' : '')
+    + (sc.cdr.pct >= 50 ? '• Você se recupera bem de dificuldades\n' : '')
+    + (sc.bfi['Abertura'] >= 3.5 ? '• Você adora aprender coisas novas\n' : '')
+    + '\n═══════════════════════════════════════\n'
+    + '🔒 ANÁLISE COMPLETA (BLOQUEADA)\n'
+    + '═══════════════════════════════════════\n\n'
+    + 'Os textos COMPLETOS de análise estão preparados para sua DEVOLUTIVA INDIVIDUAL.\n\n'
+    + 'Lá você descobre:\n'
+    + '• Por QUE você tem esses padrões\n'
+    + '• COMO trabalhar cada um deles\n'
+    + '• Seu PLANO DE AÇÃO personalizado\n'
+    + '• Protocolo para dias difíceis no intercâmbio\n\n'
+    + 'R$ 150-200 | 60-90 min | Documento personalizado\n\n'
+    + '👉 Agende agora: (85) 99616-7976\n'
+    + 'Ou clique: https://liviamelo.com.br/agenda\n\n'
+    + 'Seu intercâmbio começa em breve.\n'
+    + 'Estar preparado(a) faz diferença! 💙';
+
+  // Escolher qual versão mostrar
+  var txt = txtProv; // Por padrão mostra a provocadora
   document.getElementById('mTxt').value = txt;
+  
+  // Adicionar botão extra para versão completa
+  var btnExtra = document.getElementById('btnVersaoCompleta');
+  if (!btnExtra) {
+    var divBtn = document.createElement('div');
+    divBtn.innerHTML = '<button onclick="document.getElementById(\'mTxt\').value = window._txtCompleto; alert(\'Dados completos carregados\');" style="background:#1a2e4a;color:gold;padding:10px;border:none;border-radius:6px;margin-top:10px;cursor:pointer;">Ver Versão Completa (para Lívia)</button>';
+    document.getElementById('modal').appendChild(divBtn);
+  }
+  
+  // Armazenar versão completa na janela
+  window._txtCompleto = txtCompleto;
+  
+  // ── SALVAR DADOS EM LOCALSTORAGE ────────────────────────
+  var dadosParaSalvar = {
+    nome: U.nome,
+    email: U.email,
+    nasc: U.nasc,
+    data: U.data,
+    dest: U.dest,
+    pss: sc.pss,
+    gad: sc.gad,
+    cdr: sc.cdr,
+    cope: sc.cope,
+    erq: sc.erq,
+    bfi: sc.bfi,
+    padroes: sc.padroes,
+    analises: sc.analises,
+    respostas: R.q,
+    timestamp: new Date().toISOString()
+  };
+  salvarDados(dadosParaSalvar);
+  
+  // ── CRIAR MODAL COM BOTÕES ──────────────────────────────
+  var mTxt = document.getElementById('mTxt');
+  mTxt.value = '✅ SUCESSO!\n\n'
+    + 'Seu resultado foi processado e registrado.\n\n'
+    + '📄 PRÓXIMOS PASSOS:\n'
+    + '1. Clique em "Baixar PDF" para salvar seu resultado\n'
+    + '2. Leia com atenção\n'
+    + '3. Compartilhe com sua família\n'
+    + '4. Agende sua devolutiva\n\n'
+    + '👉 WhatsApp: (85) 99616-7976\n'
+    + '💰 Investimento: R$ 150-200\n'
+    + '⏱️ Duração: 60-90 minutos\n\n'
+    + 'Seu intercâmbio começa em breve.\n'
+    + 'Estar preparado(a) faz diferença! 💙';
+  
+  // Adicionar botões
+  var modal = document.getElementById('modal');
+  var btnArea = document.createElement('div');
+  btnArea.style.cssText = 'margin-top:15px;display:flex;gap:10px;flex-direction:column;';
+  btnArea.innerHTML = '<button onclick="gerarPDF(\'' + U.nome.replace(/'/g, "\\'") + '\')" style="background:#b8922a;color:#1a2e4a;padding:12px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">📥 Baixar PDF</button>'
+    + '<button onclick="mostrarResultado()" style="background:#1a2e4a;color:#fff;padding:12px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">📊 Ver Resultado</button>'
+    + '<button onclick="fecharModal()" style="background:#ddd;color:#1a2e4a;padding:12px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">Fechar</button>';
+  
+  if (!document.getElementById('btnAreaResult')) {
+    btnArea.id = 'btnAreaResult';
+    modal.appendChild(btnArea);
+  }
+  
   document.getElementById('modal').className = 'mov on';
   document.getElementById('cpOk').style.display = 'none';
+}
+
+function gerarPDF(nome) {
+  var sc = window._sc;
+  var element = document.createElement('div');
+  element.style.cssText = 'padding:30px;background:#fff;font-family:Arial;line-height:1.6;';
+  element.innerHTML = '<h1 style="text-align:center;color:#1a2e4a;margin-bottom:10px;">PLANO DE AÇÃO INDIVIDUALIZADO</h1>'
+    + '<p style="text-align:center;color:#b8922a;margin-bottom:30px;">Check-In Emocional - Intercâmbio</p>'
+    + '<p><strong>Nome:</strong> ' + nome + '</p>'
+    + '<p><strong>Destino:</strong> ' + (U.dest || 'Não informado') + '</p>'
+    + '<p><strong>Data:</strong> ' + U.data + '</p>'
+    + '<hr style="margin:20px 0;border:1px solid #ddd;">'
+    + '<h2 style="color:#1a2e4a;margin-top:20px;">Seus Resultados</h2>'
+    + '<p>Estresse: ' + sc.pss.lbl + ' (' + sc.pss.t + '/40)</p>'
+    + '<p>Ansiedade: ' + sc.gad.lbl + ' (' + sc.gad.t + '/21)</p>'
+    + '<p>Resiliência: ' + sc.cdr.lbl + ' (' + sc.cdr.t + '/40)</p>'
+    + '<hr style="margin:20px 0;border:1px solid #ddd;">'
+    + '<h2 style="color:#1a2e4a;margin-top:20px;">Padrões Detectados</h2>';
+  
+  if (sc.padroes) {
+    sc.padroes.forEach(function(p, i) {
+      element.innerHTML += '<p><strong>' + (i+1) + '. ' + p.titulo + '</strong><br/>'
+        + p.descricao + '<br/><em>💡 ' + p.conexao + '</em></p>';
+    });
+  }
+  
+  element.innerHTML += '<hr style="margin:20px 0;border:1px solid #ddd;">'
+    + '<h2 style="color:#1a2e4a;margin-top:20px;">Próximos Passos</h2>'
+    + '<ol>'
+    + '<li>Leia este documento com atenção</li>'
+    + '<li>Reflita sobre cada padrão</li>'
+    + '<li>Compartilhe com sua família</li>'
+    + '<li>Agende sua devolutiva: (85) 99616-7976</li>'
+    + '</ol>'
+    + '<p style="margin-top:30px;text-align:center;color:#666;font-size:12px;"><strong>Dra. Lívia Melo</strong><br/>PSICÓLOGA • CRP 11-04802</p>';
+  
+  var opt = {
+    margin: 10,
+    filename: 'Resultado_' + nome.replace(/\s+/g, '_') + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+  };
+  
+  html2pdf().set(opt).from(element).save();
+}
+
+function mostrarResultado() {
+  alert('✅ Seu resultado está sendo preparado.\n\nAcesse o painel admin para ver todos os dados.');
+}
+
+function fecharModal() {
+  document.getElementById('modal').className = 'mov';
+  location.reload();
 }
 
 function envW() {
@@ -1364,6 +1729,23 @@ mkQ('wC', CI, CS, 'c');
 mkQ('wD', DI, DS, 'd');
 mkE();
 mkQ('wB', BI, BS, 'b');
+
+// ── CARREGAR PAINEL ADMIN SE NECESSÁRIO ─────────────────────
+window.addEventListener('load', function() {
+  if (new URLSearchParams(window.location.search).get('admin') === SENHA_ADMIN) {
+    carregarPainelAdmin();
+  }
+  
+  // Adicionar botão admin no header (escondido)
+  var hdr = document.querySelector('.hdr');
+  if (hdr) {
+    var btnAdmin = document.createElement('button');
+    btnAdmin.innerHTML = '🔐';
+    btnAdmin.style.cssText = 'position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#1a2e4a;color:#b8922a;border:2px solid #b8922a;cursor:pointer;font-size:24px;z-index:999;';
+    btnAdmin.onclick = abrirAdmin;
+    document.body.appendChild(btnAdmin);
+  }
+});
 </script>
 </body>
 </html>
